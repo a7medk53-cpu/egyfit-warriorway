@@ -109,27 +109,38 @@
             }
         }
 
-        /* 3D Logo Animation */
+        /* 3D Logo Animation - عرض الصورة مع التأثيرات */
         .warrior-logo {
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 50%, var(--warrior-red) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            animation: logoFloat 3s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-            letter-spacing: 2px;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoFloat 3s ease-in-out infinite, spin 20s linear infinite;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.4));
+            position: relative;
+        }
+
+        .warrior-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
         }
 
         @keyframes logoFloat {
             0%, 100% { 
-                transform: scale(1) rotateY(0deg);
+                transform: translateY(0px);
             }
             50% { 
-                transform: scale(1.05) rotateY(5deg);
+                transform: translateY(-20px);
             }
+        }
+
+        @keyframes spin {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
         h1 {
@@ -553,7 +564,8 @@
             }
 
             .warrior-logo {
-                font-size: 2.5rem;
+                width: 150px;
+                height: 150px;
             }
 
             .section-title {
@@ -579,12 +591,6 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
-
-        /* Loading animation */
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-        }
     </style>
 </head>
 <body>
@@ -597,7 +603,11 @@
         </div>
 
         <div class="hero-content">
-            <div class="warrior-logo">⚔️ W</div>
+            <!-- Logo with Image -->
+            <div class="warrior-logo">
+                <img src="ic_logo.png" alt="EgyFit Warrior Way Logo" />
+            </div>
+            
             <h1>
                 EgyFit: <span>Warrior Way</span>
             </h1>
