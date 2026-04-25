@@ -535,6 +535,90 @@
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
         }
 
+        /* Exercise Library Section */
+        .exercise-library-section {
+            position: relative;
+            padding: 120px 20px;
+            z-index: 2;
+        }
+
+        .exercise-library-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .exercise-library-text h2 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .exercise-library-text h2 span {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .exercise-library-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .exercise-library-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .exercise-library-features li {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            padding-right: 40px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .exercise-library-features li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--primary-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .exercise-library-visual {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .exercise-library-icon {
+            font-size: 5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         /* Testimonials */
         .testimonials {
             padding: 120px 20px;
@@ -718,6 +802,11 @@
             .muscle-info {
                 min-height: 300px;
             }
+
+            .exercise-library-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
     </style>
 </head>
@@ -860,6 +949,37 @@
         </div>
     </section>
 
+    <!-- Exercise Library Section -->
+    <section class="exercise-library-section">
+        <div class="exercise-library-content">
+            <div class="exercise-library-text">
+                <h2>
+                    مكتبة <span>التمارين الكاملة</span>
+                </h2>
+                <p>
+                    انضم إلى مجتمع المحاربين الذين اكتشفوا قوة التدريب الذكي. مع مكتبتنا الشاملة للتمارين، ستجد كل ما تحتاجه لتحقيق أهدافك اللياقية.
+                </p>
+                <ul class="exercise-library-features">
+                    <li>مئات التمارين المصنفة حسب العضلات والصعوبة</li>
+                    <li>برامج تدريب موصى بها من المدربين</li>
+                    <li>متتبع تقدم شامل وإحصائيات مفصلة</li>
+                    <li>نصائح وتعليقات من مجتمع اللياقة</li>
+                    <li>تحديثات مستمرة وتمارين جديدة</li>
+                </ul>
+                <a href="exercise-library-complete.html" class="btn btn-primary" style="margin-top: 30px;">
+                    اكتشف المكتبة الكاملة 🚀
+                </a>
+            </div>
+            <div class="exercise-library-visual">
+                <div class="exercise-library-icon">📚</div>
+                <div>
+                    <h3 style="color: var(--primary-gold); margin-bottom: 15px;">500+ تمرين متاح</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">مع تعليمات مفصلة وبرامج تدريب كاملة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Testimonials Section -->
     <section class="testimonials">
         <h2 class="section-title">
@@ -907,6 +1027,7 @@
             <a href="https://sites.google.com/view/privacy-policy-for-egyfit/home">سياسة الخصوصية</a>
             <a href="mailto:egyfittpro@gmail.com">تواصل معنا</a>
             <a href="https://play.google.com/store/apps/details?id=com.egyfitt.warriorway">Google Play</a>
+            <a href="exercise-library-complete.html">مكتبة التمارين</a>
         </div>
 
         <div class="footer-bottom">
