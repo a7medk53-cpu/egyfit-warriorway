@@ -908,8 +908,8 @@
             </p>
 
             <div class="cta-container">
-                <a href="#features" class="btn btn-primary">
-                    ابدأ الآن 🚀
+                <a href="https://play.google.com/store/apps/details?id=com.egyfitt.warriorway" class="btn btn-primary">
+                    حمل من Google Play 🚀
                 </a>
                 <a href="#features" class="btn btn-secondary">اكتشف المميزات</a>
             </div>
@@ -1001,18 +1001,85 @@
             </h2>
 
             <div class="muscle-map-controls">
-                <button class="control-btn active" id="view-front">الأمام 💪</button>
-                <button class="control-btn" id="view-back">الخلف 🔙</button>
+                <button class="control-btn" data-view="front">الأمام</button>
+                <button class="control-btn" data-view="back">الخلف</button>
             </div>
 
             <div class="muscle-map-content">
-                <div id="muscle-map-svg"></div>
+                <svg id="muscle-map-svg" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Front View -->
+                    <g id="front-view" style="display: block;">
+                        <!-- Head -->
+                        <circle cx="150" cy="50" r="30" class="muscle-path" data-muscle="Head" />
+                        
+                        <!-- Chest -->
+                        <path d="M 100 100 Q 100 150 120 180 L 180 180 Q 200 150 200 100 Z" class="muscle-path" data-muscle="Chest" />
+                        
+                        <!-- Abs -->
+                        <path d="M 110 180 L 130 240 L 170 240 L 190 180 Z" class="muscle-path" data-muscle="Abs" />
+                        
+                        <!-- Shoulders -->
+                        <ellipse cx="70" cy="100" rx="25" ry="40" class="muscle-path" data-muscle="Shoulders" />
+                        <ellipse cx="230" cy="100" rx="25" ry="40" class="muscle-path" data-muscle="Shoulders" />
+                        
+                        <!-- Front Deltoids -->
+                        <path d="M 75 110 Q 60 130 70 160 L 80 140 Q 85 120 90 110 Z" class="muscle-path" data-muscle="Front Deltoids" />
+                        
+                        <!-- Biceps -->
+                        <path d="M 80 140 Q 70 200 75 250 L 90 240 Q 95 180 100 140 Z" class="muscle-path" data-muscle="Biceps" />
+                        <path d="M 220 140 Q 230 200 225 250 L 210 240 Q 205 180 200 140 Z" class="muscle-path" data-muscle="Biceps" />
+                        
+                        <!-- Forearms -->
+                        <path d="M 75 250 Q 70 320 75 380 L 85 370 Q 90 300 90 260 Z" class="muscle-path" data-muscle="Forearms" />
+                        <path d="M 225 250 Q 230 320 225 380 L 215 370 Q 210 300 210 260 Z" class="muscle-path" data-muscle="Forearms" />
+                        
+                        <!-- Quads -->
+                        <path d="M 120 240 Q 115 350 120 450 L 140 440 Q 145 330 145 250 Z" class="muscle-path" data-muscle="Quads" />
+                        <path d="M 160 240 Q 155 350 160 450 L 180 440 Q 185 330 185 250 Z" class="muscle-path" data-muscle="Quads" />
+                        
+                        <!-- Calves -->
+                        <path d="M 120 450 Q 118 520 125 570 L 135 565 Q 140 510 145 460 Z" class="muscle-path" data-muscle="Calves" />
+                        <path d="M 160 450 Q 158 520 165 570 L 175 565 Q 180 510 185 460 Z" class="muscle-path" data-muscle="Calves" />
+                    </g>
+
+                    <!-- Back View -->
+                    <g id="back-view" style="display: none;">
+                        <!-- Head -->
+                        <circle cx="150" cy="50" r="30" class="muscle-path" data-muscle="Head" />
+                        
+                        <!-- Back -->
+                        <path d="M 100 100 Q 100 180 110 280 L 190 280 Q 200 180 200 100 Z" class="muscle-path" data-muscle="Back" />
+                        
+                        <!-- Lats -->
+                        <path d="M 90 140 Q 70 200 75 280 L 110 270 Q 130 200 120 140 Z" class="muscle-path" data-muscle="Lats" />
+                        <path d="M 210 140 Q 230 200 225 280 L 190 270 Q 170 200 180 140 Z" class="muscle-path" data-muscle="Lats" />
+                        
+                        <!-- Trapezius -->
+                        <path d="M 120 100 L 180 100 L 175 150 L 125 150 Z" class="muscle-path" data-muscle="Trapezius" />
+                        
+                        <!-- Rear Deltoids -->
+                        <path d="M 100 110 Q 70 130 65 160 L 85 140 Q 100 120 110 110 Z" class="muscle-path" data-muscle="Rear Deltoids" />
+                        <path d="M 200 110 Q 230 130 235 160 L 215 140 Q 200 120 190 110 Z" class="muscle-path" data-muscle="Rear Deltoids" />
+                        
+                        <!-- Triceps -->
+                        <path d="M 75 140 Q 55 200 60 280 L 80 270 Q 95 200 100 140 Z" class="muscle-path" data-muscle="Triceps" />
+                        <path d="M 225 140 Q 245 200 240 280 L 220 270 Q 205 200 200 140 Z" class="muscle-path" data-muscle="Triceps" />
+                        
+                        <!-- Glutes -->
+                        <path d="M 110 280 Q 115 340 120 380 L 180 380 Q 185 340 190 280 Z" class="muscle-path" data-muscle="Glutes" />
+                        
+                        <!-- Hamstrings -->
+                        <path d="M 120 380 Q 118 450 125 510 L 175 510 Q 182 450 180 380 Z" class="muscle-path" data-muscle="Hamstrings" />
+                        
+                        <!-- Calves -->
+                        <path d="M 125 510 Q 123 560 130 570 L 170 570 Q 177 560 175 510 Z" class="muscle-path" data-muscle="Calves" />
+                    </g>
+                </svg>
+
                 <div class="muscle-info">
-                    <h3 id="muscle-name">اختر عضلة...</h3>
-                    <p id="muscle-description">مرر الماوس أو اضغط على العضلة لمعرفة اسمها.</p>
-                    <a id="explore-muscle-btn" href="#" class="btn btn-primary" style="margin-top: 30px;">
-                        اكتشف التمارين ⚡
-                    </a>
+                    <h3 id="muscle-name">اختر عضلة</h3>
+                    <p id="muscle-description">اضغط على أي جزء من الجسم لتعرف عليه واكتشف التمارين المتخصصة له.</p>
+                    <button id="explore-muscle-btn" class="btn btn-primary" style="display: none;">استكشف التمارين</button>
                 </div>
             </div>
         </div>
@@ -1023,28 +1090,24 @@
         <div class="exercise-library-content">
             <div class="exercise-library-text">
                 <h2>
-                    مكتبة <span>التمارين الكاملة</span>
+                    مكتبة <span>التمارين</span> الشاملة
                 </h2>
                 <p>
-                    انضم إلى مجتمع المحاربين الذين اكتشفوا قوة التدريب الذكي. مع مكتبتنا الشاملة للتمارين، ستجد كل ما تحتاجه للتطور والنمو.
+                    اكتشف أكثر من 500 تمرين متخصص مع شرح مفصل وصور توضيحية وتعليمات آمان والعضلات المستهدفة.
                 </p>
                 <ul class="exercise-library-features">
-                    <li>مئات التمارين المصنفة حسب العضلات والصعوبة</li>
-                    <li>برامج تدريب موصى بها من المدربين</li>
-                    <li>متتبع تقدم شامل وإحصائيات مفصلة</li>
-                    <li>نصائح وتعليقات من مجتمع اللياقة</li>
-                    <li>تحديثات مستمرة وتمارين جديدة</li>
+                    <li>فيديوهات توضيحية عالية الجودة</li>
+                    <li>تمارين محرفة حسب مستوى الصعوبة</li>
+                    <li>تعليمات أمان وتجنب الإصابات</li>
+                    <li>بدائل للتمارين المختلفة</li>
+                    <li>تتبع تقدمك التدريجي</li>
                 </ul>
-                <a href="exercise-library-complete.html" class="btn btn-primary" style="margin-top: 30px;">
-                    اكتشف المكتبة الكاملة 🚀
-                </a>
             </div>
+
             <div class="exercise-library-visual">
-                <div class="exercise-library-icon">📚</div>
-                <div>
-                    <h3 style="color: var(--primary-gold); margin-bottom: 15px;">500+ تمرين متاح</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">مع تعليمات مفصلة وبرامج تدريب كاملة</p>
-                </div>
+                <div class="exercise-library-icon">💪</div>
+                <p style="color: var(--primary-gold); font-size: 1.3rem; font-weight: 600;">500+ تمرين متقن</p>
+                <p style="color: var(--text-muted);">مع شرح علمي دقيق وتعليمات أمان</p>
             </div>
         </div>
     </section>
@@ -1053,39 +1116,33 @@
     <section class="warrior-way-ultimate-section">
         <div class="warrior-way-ultimate-content">
             <h2>
-                <span>Warrior Way Ultimate</span>
+                ابدأ رحلتك مع <span>Warrior Way Ultimate</span>
             </h2>
             <p>
-                اختبر أحدث إصدار من Warrior Way مع ميزات محسّنة وأداء أفضل وواجهة مستخدم منقحة تماماً. اكتشف كيفية يمكن للتحديثات الجديدة أن تحسّن تجربتك في التدريب.
+                انضم إلى آلاف المستخدمين الذين غيروا حياتهم بـ Warrior Way وتحول من عادي إلى محارب حقيقي!
             </p>
+
             <div class="ultimate-features">
                 <div class="ultimate-feature-box">
-                    <h3>⚡ أداء أسرع</h3>
-                    <p>تحسينات جوهرية في سرعة التطبيق والاستجابة الفورية للأوامر</p>
+                    <h3>🎯 برامج مخصصة</h3>
+                    <p>تدريب مخصص 100% بناءً على أهدافك وإمكانياتك</p>
                 </div>
                 <div class="ultimate-feature-box">
-                    <h3>🎨 واجهة محسّنة</h3>
-                    <p>تصميم جديد أكثر سلاسة وسهولة في الاستخدام وتجربة بصرية رائعة</p>
+                    <h3>🤖 ذكاء اصطناعي متقدم</h3>
+                    <p>تعديل البرنامج تلقائياً بناءً على نتائجك</p>
                 </div>
                 <div class="ultimate-feature-box">
-                    <h3>🔧 ميزات متقدمة</h3>
-                    <p>أدوات جديدة لتتبع مفصل وتحليل متقدم لأدائك وتقدمك</p>
+                    <h3>📱 تطبيق مجاني</h3>
+                    <p>حمله الآن من Google Play وابدأ فوراً</p>
                 </div>
                 <div class="ultimate-feature-box">
-                    <h3>🤖 ذكاء اصطناعي محسّن</h3>
-                    <p>خوارزميات ذكية أفضل لبرامج تدريب أكثر دقة وملاءمة شخصية</p>
-                </div>
-                <div class="ultimate-feature-box">
-                    <h3>📱 توافق أفضل</h3>
-                    <p>دعم أوسع للأجهزة والأنظمة مع تحسينات التوافقية الشاملة</p>
-                </div>
-                <div class="ultimate-feature-box">
-                    <h3>🛡️ أمان محسّن</h3>
-                    <p>حماية أفضل لبيانات المستخدم وتشفير محسّن على جميع المستويات</p>
+                    <h3>🏆 تحديات ومكافآت</h3>
+                    <p>اجمع النقاط وتنافس مع الآخرين</p>
                 </div>
             </div>
-            <a href="warrior-way-ultimate.html" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.2rem;">
-                اكتشف Warrior Way Ultimate 🚀
+
+            <a href="https://play.google.com/store/apps/details?id=com.egyfitt.warriorway" class="btn btn-primary">
+                حمل التطبيق الآن 🚀
             </a>
         </div>
     </section>
@@ -1093,32 +1150,32 @@
     <!-- Testimonials Section -->
     <section class="testimonials">
         <h2 class="section-title">
-            قصص <span>النجاح</span>
+            ماذا يقول <span>المستخدمون</span>؟
         </h2>
 
         <div class="testimonial-grid">
             <div class="testimonial">
                 <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
                 <p class="testimonial-text">
-                    "التطبيق غير حياتي تماماً! البرامج المخصصة فعلاً تعمل والمدرب الذكي يرد على كل أسئلتي."
+                    "أحسن تطبيق تدريب استخدمته! الذكاء الاصطناعي يفهم احتياجاتي وكل تمرين مشروح بشكل واضح."
                 </p>
-                <p class="testimonial-author">- أحمد، القاهرة</p>
+                <p class="testimonial-author">- أحمد محمود</p>
             </div>
 
             <div class="testimonial">
                 <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
                 <p class="testimonial-text">
-                    "أفضل تطبيق لياقة بدون داعي! الواجهة سهلة والتمارين تفصيلية جداً وفعالة."
+                    "تغييت نتائج مذهلة في 3 أشهر! البرنامج المخصص كان المفتاح للنجاح حقاً."
                 </p>
-                <p class="testimonial-author">- فاطمة، الإسكندرية</p>
+                <p class="testimonial-author">- سارة علي</p>
             </div>
 
             <div class="testimonial">
                 <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
                 <p class="testimonial-text">
-                    "حققت أهدافي في 3 أشهر بفضل هذا التطبيق المجنون. الذكاء الاصطناعي فعلاً ذكي!"
+                    "لا أستطيع تخيل روتيني بدون Warrior Way الآن. تطبيق احترافي وممتع جداً!"
                 </p>
-                <p class="testimonial-author">- محمود، الجيزة</p>
+                <p class="testimonial-author">- محمد خالد</p>
             </div>
         </div>
     </section>
@@ -1126,13 +1183,14 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
+            <a href="https://play.google.com/store/apps/details?id=com.egyfitt.warriorway">حمل التطبيق</a>
             <a href="#features">المميزات</a>
             <a href="#muscle-map">خريطة العضلات</a>
-            <a href="exercise-library-complete.html">مكتبة التمارين</a>
-            <a href="warrior-way-ultimate.html">Warrior Way Ultimate</a>
+            <a href="mailto:support@egyfitapp.com">تواصل معنا</a>
         </div>
+
         <div class="footer-bottom">
-            <p>&copy; 2024 EgyFit: Warrior Way. جميع الحقوق محفوظة. 💪</p>
+            <p>&copy; 2025 EgyFit: Warrior Way. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
