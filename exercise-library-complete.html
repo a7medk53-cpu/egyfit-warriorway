@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة التمارين الذكية - Warrior Way</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0a0e27;
+            --secondary-dark: #1a1f3a;
+            --accent-gold: #f0d860;
+            --text-light: #e8eaed;
+            --text-muted: #b0b3b8;
+            --warrior-red: #c41e3a;
+            --success: #10b981;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f1429 100%);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.9) 100%);
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--primary-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-title h1 {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--primary-gold);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--primary-gold);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: var(--secondary-dark);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-light);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            border-color: var(--primary-gold);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Exercises Tab */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .body-part-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 15px 0;
+            scroll-behavior: smooth;
+        }
+
+        .body-part-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .body-part-btn:hover,
+        .body-part-btn.active {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg);
+            border-color: var(--primary-gold);
+        }
+
+        /* Search & Filters */
+        .search-section {
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 50px;
+            color: var(--text-light);
+            outline: none;
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            background: var(--secondary-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        /* Exercises Grid */
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .exercise-card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .exercise-header {
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .exercise-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exercise-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .exercise-category {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            width: fit-content;
+        }
+
+        .exercise-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 8px 0;
+            font-size: 0.8rem;
+        }
+
+        .stat {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 6px;
+            border-radius: 4px;
+            border-left: 2px solid var(--primary-gold);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        .stat-value {
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .exercise-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .fav-btn {
+            background: none;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .fav-btn.liked {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        /* Workout Plans */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .plan-header {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .plan-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .plan-description {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .plan-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .plan-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Progress Tracker */
+        .progress-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .progress-log {
+            background: var(--secondary-dark);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .progress-input input,
+        .progress-input select {
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            color: var(--text-light);
+        }
+
+        .progress-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            grid-column: 1/-1;
+        }
+
+        .progress-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .progress-item {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(196, 30, 58, 0.05) 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-info {
+            flex-grow: 1;
+        }
+
+        .progress-exercise {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .progress-details {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .progress-delete {
+            background: var(--warrior-red);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-gold);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--secondary-dark);
+            margin: 2% auto;
+            padding: 30px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--primary-gold);
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .modal-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .modal-tab.active {
+            color: var(--primary-gold);
+            border-bottom-color: var(--primary-gold);
+        }
+
+        .modal-pane {
+            display: none;
+        }
+
+        .modal-pane.active {
+            display: block;
+        }
+
+        /* Video Demo */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin-bottom: 20px;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        /* Comments */
+        .comments-section {
+            margin-top: 20px;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-input textarea {
+            flex-grow: 1;
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            color: var(--text-light);
+            font-family: inherit;
+        }
+
+        .comment-btn {
+            padding: 10px 20px;
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comment {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-gold);
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: var(--primary-gold);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .comment-time {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            .exercises-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-input {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-title">
+                <h1>💪 Warrior Way - مكتبة التمارين الكاملة</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge">❤️ المفضلة: <span id="favCount">0</span></div>
+                <div class="stat-badge">📊 التمارين: <span id="exerciseCount">0</span></div>
+                <div class="stat-badge">🏆 الإنجازات: <span id="achievementCount">0</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('exercises')">🏋️ التمارين</button>
+        <button class="tab-btn" onclick="switchTab('plans')">📋 برامج التدريب</button>
+        <button class="tab-btn" onclick="switchTab('progress')">📊 متتبع التقدم</button>
+        <button class="tab-btn" onclick="switchTab('stats')">📈 الإحصائيات</button>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Exercises Tab -->
+        <div id="exercises" class="tab-content active">
+            <div class="search-section">
+                <div class="body-part-nav" id="bodyPartNav"></div>
+                
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 ابحث عن تمرين...">
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <select id="difficultyFilter">
+                            <option value="">الكل - الصعوبة</option>
+                            <option value="مبتدئ">مبتدئ</option>
+                            <option value="متوسط">متوسط</option>
+                            <option value="متقدم">متقدم</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="equipmentFilter">
+                            <option value="">الكل - المعدات</option>
+                            <option value="بدون معدات">بدون معدات</option>
+                            <option value="دمبل">دمبل</option>
+                            <option value="بار">بار</option>
+                            <option value="ماشين">ماشين</option>
+                            <option value="حبل">حبل</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercises-grid" id="exercisesGrid"></div>
+        </div>
+
+        <!-- Workout Plans Tab -->
+        <div id="plans" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: var(--primary-gold);">💪 برامج التدريب الموصى بها</h2>
+            <div class="plans-grid" id="plansGrid"></div>
+        </div>
+
+        <!-- Progress Tracker Tab -->
+        <div id="progress" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: var(--primary-gold);">📊 متتبع تقدمك</h2>
+            <div class="progress-container">
+                <div class="progress-log">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-gold);">أضف تمرينك</h3>
+                    <div class="progress-input">
+                        <select id="progressExercise">
+                            <option value="">اختر تمرين</option>
+                        </select>
+                        <input type="number" id="progressWeight" placeholder="الوزن (كجم)" min="0">
+                        <input type="number" id="progressReps" placeholder="عدد التكرارات" min="0">
+                    </div>
+                    <button class="progress-btn" onclick="addProgress()">📝 إضافة</button>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--primary-gold);">سجل التمارين</h3>
+                <div class="progress-list" id="progressList"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div id="stats" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: var(--primary-gold);">📈 إحصائياتك</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💪</div>
+                    <div class="stat-number" id="totalExercises">0</div>
+                    <div class="stat-label">إجمالي التمارين</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❤️</div>
+                    <div class="stat-number" id="totalFavorites">0</div>
+                    <div class="stat-label">التمارين المفضلة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-number" id="totalLogged">0</div>
+                    <div class="stat-label">جلسات التسجيل</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-number" id="weekStreak">0</div>
+                    <div class="stat-label">أيام متتالية</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--primary-gold);">📋 التمارين الأكثر استخداماً</h3>
+            <div id="topExercises" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;"></div>
+        </div>
+    </div>
+
+    <!-- Exercise Detail Modal -->
+    <div id="exerciseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p style="color: var(--text-muted); margin-top: 5px;" id="modalCategory"></p>
+                </div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchModalTab('details')">📝 التفاصيل</button>
+                <button class="modal-tab" onclick="switchModalTab('video')">🎥 الفيديو</button>
+                <button class="modal-tab" onclick="switchModalTab('comments')">💬 التعليقات</button>
+            </div>
+
+            <div id="details" class="modal-pane active">
+                <div id="exerciseDetails"></div>
+            </div>
+
+            <div id="video" class="modal-pane">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span>🎥 اضغط لمشاهدة الفيديو التوضيحي</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); text-align: center;">الفيديوهات التوضيحية متاحة للأعضاء المتقدمين</p>
+            </div>
+
+            <div id="comments" class="modal-pane">
+                <div class="comments-section">
+                    <div class="comment-input">
+                        <textarea id="commentText" placeholder="شارك رأيك أو نصيحة..." rows="3"></textarea>
+                        <button class="comment-btn" onclick="addComment()" style="width: 80px; padding: 10px;">إرسال</button>
+                    </div>
+                    <div id="commentsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const exercises = [
+            // صدر
+            { id: 1, name: "البنش برس", emoji: "🏋️", category: "صدر", difficulty: "مبتدئ", equipment: "بار", sets: 4, reps: "8-10", description: "تمرين أساسي لبناء عضلات الصدر.", tips: "حافظ على ظهرك على المقعد، ركز على عضلات الصدر أثناء الدفع." },
+            { id: 2, name: "اليقطة المائلة", emoji: "💪", category: "صدر", difficulty: "متوسط", equipment: "دمبل", sets: 3, reps: "10-12", description: "تمرين لاستهداف الجزء العلوي من الصدر.", tips: "اجعل المقعد مائل 45 درجة، تحكم بالحركة ببطء." },
+            { id: 3, name: "الضغط على الصدر", emoji: "⚙️", category: "صدر", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين آمن وفعال للمبتدئين.", tips: "ابدأ بوزن خفيف، تحكم بالحركة بشكل كامل." },
+            { id: 4, name: "ضغط الدمبل على الأرض", emoji: "💪", category: "صدر", difficulty: "متقدم", equipment: "دمبل", sets: 4, reps: "6-8", description: "تمرين متقدم لزيادة القوة والعضلات.", tips: "استخدم وزن ثقيل، اطلب مساعدة." },
+
+            // ظهر
+            { id: 5, name: "الجذب للأسفل", emoji: "🎯", category: "ظهر", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "10-12", description: "تمرين أساسي للظهر العلوي.", tips: "اسحب الحبل باتجاه صدرك." },
+            { id: 6, name: "صفوف الدمبل", emoji: "🏋️", category: "ظهر", difficulty: "متوسط", equipment: "دمبل", sets: 4, reps: "8-10", description: "تمرين فعال للظهر الوسطي.", tips: "حافظ على ظهرك مستقيماً." },
+
+            // أرجل
+            { id: 7, name: "القرفصاء", emoji: "🦵", category: "أرجل", difficulty: "متوسط", equipment: "بار", sets: 4, reps: "8-10", description: "ملك التمارين للأرجل.", tips: "انزل حتى الركبة بزاوية 90 درجة." },
+            { id: 8, name: "ضغط الأرجل", emoji: "⚙️", category: "أرجل", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين آمن للأرجل.", tips: "لا تقفل الركبتان عند الرفع." },
+
+            // كتفين
+            { id: 9, name: "الضغط العسكري", emoji: "🪖", category: "كتفين", difficulty: "متوسط", equipment: "بار", sets: 4, reps: "8-10", description: "تمرين أساسي للكتفين.", tips: "ابدأ من مستوى الكتفين." },
+            { id: 10, name: "رفع الجانبي", emoji: "🎯", category: "كتفين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "15-20", description: "تمرين لتوسيع الكتفين.", tips: "حافظ على الكوعين مرفوعين." },
+
+            // ذراعين
+            { id: 11, name: "البايسبس", emoji: "💪", category: "ذراعين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "10-12", description: "تمرين أساسي للذراعين.", tips: "ثبت مرفقك على جسدك." },
+            { id: 12, name: "التراي سيبس", emoji: "🏋️", category: "ذراعين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "12-15", description: "تمرين للذراع الخلفية.", tips: "حافظ على المرفقين بجانب جسدك." },
+
+            // بطن
+            { id: 13, name: "الكرانشز", emoji: "😤", category: "بطن", difficulty: "مبتدئ", equipment: "بدون معدات", sets: 3, reps: "15-20", description: "تمرين أساسي للبطن.", tips: "رفع من الكتفين فقط." },
+            { id: 14, name: "البلانك", emoji: "📍", category: "بطن", difficulty: "متوسط", equipment: "بدون معدات", sets: 3, reps: "30-60 ثانية", description: "تمرين فعال للبطن.", tips: "حافظ على جسدك مستقيماً." },
+
+            // حرق سعرات
+            { id: 15, name: "الجري", emoji: "🏃", category: "حرق سعرات", difficulty: "مبتدئ", equipment: "ماشين", sets: 1, reps: "20-30 دقيقة", description: "تمرين هوائي لحرق السعرات.", tips: "ابدأ برفق." },
+            { id: 16, name: "بوكس جمبس", emoji: "📦", category: "حرق سعرات", difficulty: "متوسط", equipment: "بدون معدات", sets: 3, reps: "10-15", description: "تمرين انفجاري.", tips: "اقفز بقوة." },
+        ];
+
+        const workoutPlans = [
+            { id: 1, icon: "💪", title: "برنامج المبتدئين", description: "3 أيام في الأسبوع", duration: "4 أسابيع", level: "مبتدئ", exercises: 12 },
+            { id: 2, icon: "🔥", title: "برنامج حرق السعرات", description: "5 أيام في الأسبوع", duration: "8 أسابيع", level: "متوسط", exercises: 20 },
+            { id: 3, icon: "🏆", title: "برنامج بناء العضلات", description: "6 أيام في الأسبوع", duration: "12 أسبوع", level: "متقدم", exercises: 30 },
+            { id: 4, icon: "⚡", title: "برنامج قوة سريعة", description: "4 أيام في الأسبوع", duration: "6 أسابيع", level: "متوسط", exercises: 18 },
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let progressLog = JSON.parse(localStorage.getItem('progressLog')) || [];
+        let comments = JSON.parse(localStorage.getItem('comments')) || {};
+        let currentExerciseId = null;
+        let currentBodyPart = 'الكل';
+
+        // Initialize
+        function init() {
+            initBodyPartTabs();
+            displayExercises(exercises);
+            displayPlans();
+            updateStats();
+            document.getElementById('exerciseCount').textContent = exercises.length;
+        }
+
+        function initBodyPartTabs() {
+            const bodyParts = ['صدر', 'ظهر', 'أرجل', 'كتفين', 'ذراعين', 'بطن', 'حرق سعرات'];
+            const nav = document.getElementById('bodyPartNav');
+            nav.innerHTML = '<button class="body-part-btn active" onclick="filterByBodyPart(\'الكل\')">🏋️ الكل</button>';
+            
+            bodyParts.forEach(part => {
+                const emoji = part === 'صدر' ? '🏋️' : part === 'ظهر' ? '🎯' : part === 'أرجل' ? '🦵' : part === 'كتفين' ? '🪖' : part === 'ذراعين' ? '💪' : part === 'بطن' ? '😤' : '🔥';
+                const btn = document.createElement('button');
+                btn.className = 'body-part-btn';
+                btn.textContent = `${emoji} ${part}`;
+                btn.onclick = () => filterByBodyPart(part);
+                nav.appendChild(btn);
+            });
+        }
+
+        function filterByBodyPart(part) {
+            currentBodyPart = part;
+            document.querySelectorAll('.body-part-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterExercises();
+        }
+
+        function filterExercises() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const equipment = document.getElementById('equipmentFilter').value;
+
+            const filtered = exercises.filter(ex => {
+                const matchBodyPart = currentBodyPart === 'الكل' || ex.category === currentBodyPart;
+                const matchSearch = ex.name.includes(search) || ex.category.includes(search);
+                const matchDifficulty = !difficulty || ex.difficulty === difficulty;
+                const matchEquipment = !equipment || ex.equipment === equipment;
+                
+                return matchBodyPart && matchSearch && matchDifficulty && matchEquipment;
+            });
+
+            displayExercises(filtered);
+        }
+
+        function displayExercises(list) {
+            const grid = document.getElementById('exercisesGrid');
+            grid.innerHTML = list.map(ex => `
+                <div class="exercise-card" onclick="showExerciseModal(${ex.id})">
+                    <div class="exercise-header">${ex.emoji}</div>
+                    <div class="exercise-body">
+                        <div class="exercise-title">${ex.name}</div>
+                        <div class="exercise-category">${ex.category}</div>
+                        <div class="exercise-stats">
+                            <div class="stat">
+                                <div class="stat-label">المجموعات</div>
+                                <div class="stat-value">${ex.sets}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">التكرارات</div>
+                                <div class="stat-value">${ex.reps}</div>
+                            </div>
+                        </div>
+                        <div class="exercise-footer">
+                            <small style="color: var(--text-muted);">${ex.equipment}</small>
+                            <button class="fav-btn ${favorites.includes(ex.id) ? 'liked' : ''}" onclick="toggleFavorite(event, ${ex.id})">${favorites.includes(ex.id) ? '❤️' : '🤍'}</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayPlans() {
+            const grid = document.getElementById('plansGrid');
+            grid.innerHTML = workoutPlans.map(plan => `
+                <div class="plan-card" onclick="selectPlan(${plan.id})">
+                    <div class="plan-header">${plan.icon}</div>
+                    <div class="plan-title">${plan.title}</div>
+                    <p class="plan-description">${plan.description}</p>
+                    <div class="plan-meta">
+                        <span>⏱️ ${plan.duration}</span>
+                        <span>📊 ${plan.exercises} تمرين</span>
+                    </div>
+                    <button class="plan-btn">ابدأ الآن 🚀</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleFavorite(event, id) {
+            event.stopPropagation();
+            const idx = favorites.indexOf(id);
+            if (idx > -1) favorites.splice(idx, 1);
+            else favorites.push(id);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            document.getElementById('favCount').textContent = favorites.length;
+            filterExercises();
+        }
+
+        function showExerciseModal(id) {
+            currentExerciseId = id;
+            const ex = exercises.find(e => e.id === id);
+            document.getElementById('modalTitle').textContent = ex.name;
+            document.getElementById('modalCategory').textContent = `${ex.category} • ${ex.difficulty}`;
+            
+            document.getElementById('exerciseDetails').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h3 style="color: var(--primary-gold); margin-bottom: 10px;">📊 معلومات التمرين</h3>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 8px;">
+                            <p><strong>العضلة:</strong> ${ex.category}</p>
+                            <p><strong>الصعوبة:</strong> ${ex.difficulty}</p>
+                            <p><strong>المعدات:</strong> ${ex.equipment}</p>
+                            <p><strong>المجموعات:</strong> ${ex.sets}</p>
+                            <p><strong>التكرارات:</strong> ${ex.reps}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--primary-gold); margin-bottom: 10px;">📝 الوصف</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6;">${ex.description}</p>
+                        <h3 style="color: var(--primary-gold); margin-top: 15px; margin-bottom: 10px;">💡 النصائح</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6;">${ex.tips}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('commentsList').innerHTML = (comments[id] || []).map(c => `
+                <div class="comment">
+                    <div class="comment-author">${c.author}</div>
+                    <div class="comment-text">${c.text}</div>
+                    <div class="comment-time">${c.time}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('commentText').value = '';
+            document.getElementById('exerciseModal').style.display = 'block';
+            switchModalTab('details');
+        }
+
+        function addComment() {
+            const text = document.getElementById('commentText').value.trim();
+            if (!text) return;
+            
+            if (!comments[currentExerciseId]) comments[currentExerciseId] = [];
+            comments[currentExerciseId].push({
+                author: 'أنت',
+                text: text,
+                time: new Date().toLocaleString('ar-EG')
+            });
+            
+            localStorage.setItem('comments', JSON.stringify(comments));
+            showExerciseModal(currentExerciseId);
+            switchModalTab('comments');
+        }
+
+        function addProgress() {
+            const exerciseId = document.getElementById('progressExercise').value;
+            const weight = document.getElementById('progressWeight').value;
+            const reps = document.getElementById('progressReps').value;
+
+            if (!exerciseId || !weight || !reps) return alert('ملء جميع الحقول');
+
+            const exercise = exercises.find(e => e.id == exerciseId);
+            progressLog.push({
+                exerciseName: exercise.name,
+                exerciseId: exerciseId,
+                weight: weight,
+                reps: reps,
+                date: new Date().toLocaleString('ar-EG')
+            });
+
+            localStorage.setItem('progressLog', JSON.stringify(progressLog));
+            document.getElementById('progressExercise').value = '';
+            document.getElementById('progressWeight').value = '';
+            document.getElementById('progressReps').value = '';
+            displayProgress();
+            updateStats();
+        }
+
+        function displayProgress() {
+            const list = document.getElementById('progressList');
+            list.innerHTML = progressLog.slice().reverse().map((log, idx) => `
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <div class="progress-exercise">${log.exerciseName}</div>
+                        <div class="progress-details">${log.weight} كجم × ${log.reps} تكرار • ${log.date}</div>
+                    </div>
+                    <button class="progress-delete" onclick="deleteProgress(${progressLog.length - 1 - idx})">حذف</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteProgress(idx) {
+            progressLog.splice(idx, 1);
+            localStorage.setItem('progressLog', JSON.stringify(progressLog));
+            displayProgress();
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('favCount').textContent = favorites.length;
+            document.getElementById('totalExercises').textContent = exercises.length;
+            document.getElementById('totalFavorites').textContent = favorites.length;
+            document.getElementById('totalLogged').textContent = progressLog.length;
+            
+            const days = new Set(progressLog.map(log => log.date.split(' ')[0])).size;
+            document.getElementById('weekStreak').textContent = days;
+
+            const frequencyMap = {};
+            progressLog.forEach(log => {
+                frequencyMap[log.exerciseName] = (frequencyMap[log.exerciseName] || 0) + 1;
+            });
+            
+            const topExs = Object.entries(frequencyMap).sort((a, b) => b[1] - a[1]).slice(0, 4);
+            document.getElementById('topExercises').innerHTML = topExs.map(([name, count]) => `
+                <div class="stat-card">
+                    <div style="font-size: 1.2rem; margin-bottom: 8px;">🏆</div>
+                    <div style="color: var(--primary-gold); font-weight: bold;">${name}</div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">${count} مرات</div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tab === 'progress') {
+                document.getElementById('progressExercise').innerHTML = '<option value="">اختر تمرين</option>' +
+                    exercises.map(ex => `<option value="${ex.id}">${ex.name}</option>`).join('');
+                displayProgress();
+            }
+            if (tab === 'stats') updateStats();
+        }
+
+        function switchModalTab(pane) {
+            document.querySelectorAll('.modal-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.modal-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(pane).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('exerciseModal').style.display = 'none';
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterExercises);
+        document.getElementById('difficultyFilter').addEventListener('change', filterExercises);
+        document.getElementById('equipmentFilter').addEventListener('change', filterExercises);
+
+        window.onclick = (e) => {
+            if (e.target.id === 'exerciseModal') closeModal();
+        };
+
+        init();
+    </script>
+</body>
+</html>
