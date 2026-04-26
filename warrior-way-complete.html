@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warrior Way - أكاديمية اللياقة الذكية</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0a0e27;
+            --secondary-dark: #1a1f3a;
+            --accent-gold: #f0d860;
+            --text-light: #e8eaed;
+            --text-muted: #b0b3b8;
+            --warrior-red: #c41e3a;
+            --success: #10b981;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f1429 100%);
+            color: var(--text-light);
+        }
+
+        .sidebar {
+            position: fixed; left: 0; top: 0; width: 280px; height: 100vh;
+            background: linear-gradient(180deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.9) 100%);
+            border-right: 2px solid var(--primary-gold);
+            overflow-y: auto; z-index: 1000; padding-top: 20px;
+        }
+
+        .logo-sidebar { text-align: center; padding: 20px; border-bottom: 2px solid rgba(212, 175, 55, 0.2); margin-bottom: 20px; }
+        .logo-sidebar h1 {
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 10px; padding: 0 15px; }
+        .nav-item {
+            padding: 15px; background: transparent; border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px; color: var(--text-light); cursor: pointer; transition: all 0.3s ease;
+            font-weight: 600; text-align: right; display: flex; align-items: center; gap: 10px;
+        }
+        .nav-item:hover { border-color: var(--primary-gold); background: rgba(212, 175, 55, 0.1); }
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg); border-color: var(--primary-gold);
+        }
+
+        .user-card {
+            position: absolute; bottom: 20px; width: calc(100% - 30px);
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            padding: 15px; border-radius: 10px; text-align: center; color: var(--dark-bg);
+        }
+
+        .main-content { margin-left: 280px; min-height: 100vh; padding: 20px; }
+        .top-header {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.9) 100%);
+            padding: 20px; border-bottom: 2px solid var(--primary-gold); border-radius: 10px; margin-bottom: 30px;
+        }
+        .header-title {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .articles-grid, .recipes-grid, .programs-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 40px;
+        }
+
+        .article-card, .recipe-card, .program-card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold); border-radius: 12px; padding: 20px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .article-card:hover, .recipe-card:hover, .program-card:hover {
+            transform: translateY(-10px); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .article-title, .recipe-name, .program-title {
+            font-size: 1.2rem; font-weight: bold; color: var(--primary-gold); margin-bottom: 10px;
+        }
+
+        .article-excerpt, .recipe-info {
+            color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px; line-height: 1.6;
+        }
+
+        .article-category {
+            display: inline-block; background: rgba(212, 175, 55, 0.2); color: var(--primary-gold);
+            padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; margin-bottom: 10px;
+        }
+
+        .read-btn, .program-btn {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg); border: none; padding: 10px 20px; border-radius: 6px;
+            cursor: pointer; font-weight: bold; width: 100%; transition: all 0.3s ease;
+        }
+        .read-btn:hover, .program-btn:hover { transform: scale(1.05); }
+
+        .search-box input {
+            width: 100%; padding: 12px 20px; background: var(--secondary-dark);
+            border: 2px solid var(--primary-gold); border-radius: 50px; color: var(--text-light); margin-bottom: 15px;
+        }
+
+        .filter-buttons {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+        }
+        .filter-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px; color: var(--text-light); cursor: pointer; transition: all 0.3s ease; font-weight: 600;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-gold); color: var(--dark-bg); border-color: var(--primary-gold);
+        }
+
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--secondary-dark); margin: 3% auto; padding: 30px;
+            border: 2px solid var(--primary-gold); border-radius: 12px; width: 90%; max-width: 800px;
+        }
+
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .modal-title { font-size: 2rem; color: var(--primary-gold); }
+        .close-btn { background: none; border: none; color: var(--primary-gold); font-size: 2.5rem; cursor: pointer; }
+
+        .modal-body { color: var(--text-light); line-height: 1.8; }
+        .modal-body h3 { color: var(--primary-gold); margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; }
+        .modal-body p, .modal-body ul li { margin-bottom: 12px; color: var(--text-muted); }
+        .modal-body ul { margin-left: 20px; }
+        .modal-body li { margin-bottom: 8px; }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; }
+            .main-content { margin-left: 200px; }
+            .articles-grid, .recipes-grid, .programs-grid { grid-template-columns: 1fr; }
+            .header-title { font-size: 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-sidebar"><h1>⚔️ Warrior Way</h1></div>
+        <div class="nav-menu">
+            <div class="nav-item active" onclick="showPage('home')"><span style="font-size: 1.5rem;">🏠</span><span>الرئيسية</span></div>
+            <div class="nav-item" onclick="showPage('articles')"><span style="font-size: 1.5rem;">📚</span><span>المقالات</span></div>
+            <div class="nav-item" onclick="showPage('recipes')"><span style="font-size: 1.5rem;">🍽️</span><span>الوصفات</span></div>
+            <div class="nav-item" onclick="showPage('programs')"><span style="font-size: 1.5rem;">💪</span><span>البرامج</span></div>
+            <div class="nav-item" onclick="showPage('tips')"><span style="font-size: 1.5rem;">💡</span><span>النصائح</span></div>
+        </div>
+        <div class="user-card">
+            <div style="font-weight: bold; margin-bottom: 5px;">مرحباً بك 👋</div>
+            <div style="font-size: 0.85rem; opacity: 0.9;">في Warrior Way</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="home" class="page active">
+            <div class="top-header"><h2 class="header-title">🏠 الصفحة الرئيسية</h2></div>
+            <div style="background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%); padding: 40px; border-radius: 12px; text-align: center;">
+                <h1 style="font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 20px;">⚔️ مرحباً في Warrior Way</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px;">منصتك الشاملة للياقة البدنية والتغذية الصحية</p>
+                <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 30px;">اكتشف أكثر من 35 مقالة متخصصة و25 وصفة صحية و8 برامج تدريبية مثبتة للوصول لأهدافك الصحية.</p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button style="padding: 12px 30px; background: var(--primary-gold); color: var(--dark-bg); border: none; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem;" onclick="showPage('articles')">اقرأ المقالات 📚</button>
+                    <button style="padding: 12px 30px; background: transparent; color: var(--primary-gold); border: 2px solid var(--primary-gold); border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem;" onclick="showPage('recipes')">استكشف الوصفات 🍽️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="articles" class="page">
+            <div class="top-header"><h2 class="header-title">📚 المقالات والمعلومات</h2></div>
+            <div class="search-box"><input type="text" id="searchArticles" placeholder="🔍 ابحث عن مقالة..."></div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterArticles('الكل')">الكل</button>
+                <button class="filter-btn" onclick="filterArticles('تمارين')">تمارين</button>
+                <button class="filter-btn" onclick="filterArticles('تغذية')">تغذية</button>
+                <button class="filter-btn" onclick="filterArticles('صحة')">صحة</button>
+            </div>
+            <div class="articles-grid" id="articlesGrid"></div>
+        </div>
+
+        <div id="recipes" class="page">
+            <div class="top-header"><h2 class="header-title">🍽️ الوصفات الصحية</h2></div>
+            <div class="search-box"><input type="text" id="searchRecipes" placeholder="🔍 ابحث عن وصفة..."></div>
+            <div class="recipes-grid" id="recipesGrid"></div>
+        </div>
+
+        <div id="programs" class="page">
+            <div class="top-header"><h2 class="header-title">💪 برامج التدريب</h2></div>
+            <div class="programs-grid" id="programsGrid"></div>
+        </div>
+
+        <div id="tips" class="page">
+            <div class="top-header"><h2 class="header-title">💡 نصائح وإرشادات</h2></div>
+            <div style="background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%); padding: 30px; border-radius: 12px;">
+                <h3 style="color: var(--primary-gold); margin-bottom: 20px; font-size: 1.3rem;">النصائح الذهبية للياقة والصحة</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">💧 شرب الماء</h4>
+                        <p style="color: var(--text-muted);">اشرب 3 لتر من الماء يومياً للترطيب الكامل والصحة المثالية</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">😴 النوم الكافي</h4>
+                        <p style="color: var(--text-muted);">نم 7-9 ساعات يومياً لاستعادة طاقتك وتعافي عضلاتك</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">🏃 الرياضة المنتظمة</h4>
+                        <p style="color: var(--text-muted);">مارس رياضة 150 دقيقة أسبوعياً على الأقل</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">🥗 الطعام الصحي</h4>
+                        <p style="color: var(--text-muted);">تناول 5 حصص من الفواكه والخضروات يومياً</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">📊 تتبع النظام</h4>
+                        <p style="color: var(--text-muted);">احسب سعراتك الحرارية وتابع ما تأكله</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); margin-bottom: 10px;">💪 البروتين</h4>
+                        <p style="color: var(--text-muted);">ركز على البروتين لبناء وصيانة العضلات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const articles = [
+            { id: 1, title: "أساسيات اللياقة البدنية للمبتدئين", category: "تمارين", emoji: "🏋️", excerpt: "دليل شامل للبدء بممارسة الرياضة بشكل آمن وفعال", content: "<h3>أساسيات اللياقة البدنية</h3><p>الرياضة المنتظمة تحسن الصحة البدنية والعقلية. ابدأ بتمارين خفيفة وزد الحمل تدريجياً.</p><h3>أنواع التمارين:</h3><p><strong>تمارين الكارديو:</strong> تحسن صحة القلب</p><p><strong>تمارين القوة:</strong> تبني العضلات</p><p><strong>تمارين المرونة:</strong> تحسن المرونة</p>" },
+            { id: 2, title: "التغذية الصحية - ما الذي يجب أن تأكله؟", category: "تغذية", emoji: "🥗", excerpt: "فهم العناصر الغذائية الأساسية والتوازن الصحيح", content: "<h3>العناصر الغذائية الأساسية</h3><p><strong>البروتينات:</strong> ضرورية لبناء العضلات</p><p><strong>الكربوهيدرات:</strong> توفر الطاقة</p><p><strong>الدهون الصحية:</strong> مهمة لصحة القلب</p>" },
+            { id: 3, title: "الصيام المتقطع - الدليل الكامل", category: "صحة", emoji: "⏰", excerpt: "فوائد وتحديات الصيام المتقطع وكيفية تطبيقه", content: "<h3>الصيام المتقطع</h3><p>نمط غذائي يتناوب بين فترات الأكل والصيام.</p><h3>الفوائد:</h3><p>يحسن حساسية الإنسولين، يساعد في خفض الوزن، يحسن وظائف الدماغ</p>" },
+            { id: 4, title: "10 أخطاء شائعة في الرياضة", category: "تمارين", emoji: "⚠️", excerpt: "تعرف على الأخطاء التي يرتكبها معظم الناس", content: "<h3>الأخطاء الشائعة</h3><p><strong>عدم الإحماء:</strong> ضروري لتحضير العضلات</p><p><strong>الإجهاد الزائد:</strong> الشكل الصحيح أهم من الوزن</p>" },
+            { id: 5, title: "الماء والصحة - كم يجب أن تشرب؟", category: "صحة", emoji: "💧", excerpt: "أهمية الماء والكمية المناسبة والفوائس", content: "<h3>أهمية الماء</h3><p>الماء يشكل 70% من جسم الإنسان.</p><h3>الكمية المناسبة:</h3><p>8 أكواب يومياً (حوالي 2 لتر)</p>" },
+            { id: 6, title: "بناء العضلات - المبادئ الأساسية", category: "تمارين", emoji: "💪", excerpt: "كيفية بناء عضلات قوية وصحيحة بطريقة علمية", content: "<h3>بناء العضلات</h3><p>يتطلب تدريب منتظم وتغذية صحيحة وراحة كافية.</p>" },
+            { id: 7, title: "حساب السعرات الحرارية اليومية", category: "تغذية", emoji: "🔢", excerpt: "كيفية حساب احتياجاتك من السعرات الحرارية", content: "<h3>حساب السعرات</h3><p>معادلة بسيطة لحساب احتياجاتك اليومية من السعرات.</p>" },
+            { id: 8, title: "الرياضة في رمضان - نصائح آمنة", category: "صحة", emoji: "🕌", excerpt: "كيفية ممارسة الرياضة بأمان خلال شهر رمضان", content: "<h3>الرياضة في رمضان</h3><p>يمكنك ممارسة الرياضة في رمضان بطريقة آمنة.</p>" },
+            { id: 9, title: "أفضل التمارين للمنزل", category: "تمارين", emoji: "🏡", excerpt: "تمارين فعالة لا تحتاج معدات في البيت", content: "<h3>تمارين المنزل</h3><p>تمارين بسيطة وفعالة بدون معدات.</p>" },
+            { id: 10, title: "الدهون الصحية - لا تخافوا منها", category: "تغذية", emoji: "🥑", excerpt: "فهم الدهون الصحية وأهميتها لصحتك", content: "<h3>الدهون الصحية</h3><p>الدهون الصحية ضرورية لصحة جسدك.</p>" }
+        ];
+
+        const recipes = [
+            { id: 1, name: "دجاج صدر مع الأرز البني", emoji: "🍗", calories: "450", protein: "40g", description: "وجبة متوازنة غنية بالبروتين" },
+            { id: 2, name: "سلطة الدجاج والخضار", emoji: "🥗", calories: "280", protein: "35g", description: "وجبة خفيفة صحية" },
+            { id: 3, name: "شوفان مع العسل والمكسرات", emoji: "🥣", calories: "320", protein: "12g", description: "فطور صحي" },
+            { id: 4, name: "سمك السلمون مع البطاطا الحلوة", emoji: "🐟", calories: "520", protein: "45g", description: "وجبة غنية بأوميجا 3" },
+            { id: 5, name: "بيض مسلوق مع خبز أسمر", emoji: "🥚", calories: "250", protein: "18g", description: "وجبة سريعة وغنية" },
+            { id: 6, name: "عصير الفراولة والموز", emoji: "🍓", calories: "150", protein: "3g", description: "مشروب منعش بعد التمرين" },
+            { id: 7, name: "حساء الدجاج والخضار", emoji: "🍲", calories: "200", protein: "25g", description: "وجبة دافئة ومغذية" },
+            { id: 8, name: "سلطة التونة والحمص", emoji: "🥫", calories: "320", protein: "38g", description: "وجبة غنية بالبروتين" }
+        ];
+
+        const programs = [
+            { id: 1, title: "برنامج تمارين 4 أسابيع", icon: "📅", description: "برنامج شامل للمبتدئين مع تمارين يومية" },
+            { id: 2, title: "برنامج تخفيف الوزن 12 أسبوع", icon: "⚖️", description: "خطة متكاملة من التمارين والتغذية" },
+            { id: 3, title: "برنامج بناء العضلات", icon: "💪", description: "برنامج متقدم لزيادة الكتلة العضلية" },
+            { id: 4, title: "برنامج الصيام المتقطع", icon: "⏰", description: "خطة غذائية مع الصيام المتقطع" },
+            { id: 5, title: "برنامج تحسين المرونة", icon: "🧘", description: "تمارين يوغا وتمدد منتظمة" },
+            { id: 6, title: "برنامج اللياقة السريعة", icon: "⚡", description: "تمارين HIIT فعالة وسريعة" },
+            { id: 7, title: "برنامج الجسم المثالي", icon: "👕", description: "برنامج شامل لجسم متناسق" },
+            { id: 8, title: "برنامج الصحة الشاملة", icon: "🏥", description: "برنامج يجمع كل جوانب الصحة" }
+        ];
+
+        function displayArticles(filter) {
+            const grid = document.getElementById('articlesGrid');
+            const filtered = filter === 'الكل' ? articles : articles.filter(a => a.category === filter);
+            grid.innerHTML = filtered.map(a => `
+                <div class="article-card" onclick="showModal(${a.id})">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${a.emoji}</div>
+                    <div class="article-category">${a.category}</div>
+                    <div class="article-title">${a.title}</div>
+                    <div class="article-excerpt">${a.excerpt}</div>
+                    <button class="read-btn" style="margin-top: auto; margin-top: 10px;">اقرأ المقالة</button>
+                </div>
+            `).join('');
+        }
+
+        function displayRecipes() {
+            const grid = document.getElementById('recipesGrid');
+            grid.innerHTML = recipes.map(r => `
+                <div class="recipe-card">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${r.emoji}</div>
+                    <div class="recipe-name">${r.name}</div>
+                    <div class="recipe-info"><span style="color: var(--primary-gold);">${r.calories}</span> | <span>بروتين: ${r.protein}</span></div>
+                    <div class="article-excerpt">${r.description}</div>
+                </div>
+            `).join('');
+        }
+
+        function displayPrograms() {
+            const grid = document.getElementById('programsGrid');
+            grid.innerHTML = programs.map(p => `
+                <div class="program-card">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${p.icon}</div>
+                    <div class="program-title">${p.title}</div>
+                    <div class="article-excerpt">${p.description}</div>
+                    <button class="program-btn">ابدأ الآن</button>
+                </div>
+            `).join('');
+        }
+
+        function filterArticles(category) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            displayArticles(category);
+        }
+
+        function showModal(id) {
+            const article = articles.find(a => a.id === id);
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalBody').innerHTML = article.content;
+            document.getElementById('articleModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            event.target.closest('.nav-item')?.classList.add('active');
+
+            if (page === 'articles') displayArticles('الكل');
+            if (page === 'recipes') displayRecipes();
+            if (page === 'programs') displayPrograms();
+        }
+
+        document.getElementById('searchArticles')?.addEventListener('input', (e) => {
+            const search = e.target.value.toLowerCase();
+            const filtered = articles.filter(a => a.title.includes(search) || a.excerpt.includes(search));
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = filtered.map(a => `
+                <div class="article-card" onclick="showModal(${a.id})">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${a.emoji}</div>
+                    <div class="article-category">${a.category}</div>
+                    <div class="article-title">${a.title}</div>
+                    <div class="article-excerpt">${a.excerpt}</div>
+                    <button class="read-btn" style="margin-top: 10px;">اقرأ المقالة</button>
+                </div>
+            `).join('');
+        });
+
+        document.getElementById('searchRecipes')?.addEventListener('input', (e) => {
+            const search = e.target.value.toLowerCase();
+            const filtered = recipes.filter(r => r.name.includes(search));
+            const grid = document.getElementById('recipesGrid');
+            grid.innerHTML = filtered.map(r => `
+                <div class="recipe-card">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${r.emoji}</div>
+                    <div class="recipe-name">${r.name}</div>
+                    <div class="recipe-info"><span style="color: var(--primary-gold);">${r.calories}</span> | <span>بروتين: ${r.protein}</span></div>
+                    <div class="article-excerpt">${r.description}</div>
+                </div>
+            `).join('');
+        });
+
+        window.onclick = (e) => {
+            if (e.target.id === 'articleModal') closeModal();
+        };
+    </script>
+</body>
+</html>
