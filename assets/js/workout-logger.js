@@ -14,8 +14,23 @@ class WorkoutLogger {
     const template = document.getElementById('exerciseTemplate'); const clone = template.content.cloneNode(true);
     const card = clone.querySelector('.exercise-card'); card.dataset.exerciseId = exerciseData.id || generateId();
     card.querySelector('.exercise-name').textContent = exerciseData.name; card.querySelector('.exercise-muscle').textContent = exerciseData.muscle || '';
+    
+    // Add History Section
+    const historyDiv = document.createElement('div');
+    historyDiv.className = 'exercise-history';
+    historyDiv.style.cssText = 'font-size:0.85rem; color:var(--text-muted); margin-bottom:10px; padding:8px; background:rgba(0,0,0,0.2); border-radius:6px;';
+    historyDiv.innerHTML = `<span>أفضل 1RM: <strong style="color:var(--accent-gold)">${this.calculate1RM(0,0)}</strong></span> | <span>آخر أداء: --</span>`;
+    card.insertBefore(historyDiv, card.querySelector('.sets-container'));
+
     document.getElementById('exercisesList').appendChild(card); this.addSet(card.querySelector('.add-set-btn'));
     closeAddExerciseModal(); showToast(`تم إضافة: ${exerciseData.name}`, 'success');
+  }
+
+  // Epley formula for 1RM calculation
+  calculate1RM(weight, reps) {
+    if (!weight || !reps) return '--';
+    if (reps === 1) return weight.toFixed(1) + ' كجم';
+    return (weight * (1 + (reps / 30))).toFixed(1) + ' كجم';
   }
   addSet(btn) { const template = document.getElementById('setTemplate'); const clone = template.content.cloneNode(true); const setsContainer = btn.previousElementSibling; setsContainer.appendChild(clone); }
   removeSet(btn) { const setRow = btn.closest('.set-row'); const exerciseCard = btn.closest('.exercise-card'); setRow.remove(); if (exerciseCard.querySelectorAll('.set-row').length === 0) exerciseCard.remove(); }
@@ -64,8 +79,9 @@ class WorkoutLogger {
     const exercises = [];
     document.querySelectorAll('.exercise-card').forEach(card => {
       const sets = []; card.querySelectorAll('.set-row').forEach(row => {
+        const type = row.querySelector('.set-type')?.value || 'normal';
         const reps = row.querySelector('.set-reps').value; const weight = row.querySelector('.set-weight').value; const rpe = row.querySelector('.set-rpe').value;
-        if (reps || weight) sets.push({ reps: reps ? parseInt(reps) : null, weight: weight ? parseFloat(weight) : null, rpe: rpe ? parseInt(rpe) : null });
+        if (reps || weight) sets.push({ type: type, reps: reps ? parseInt(reps) : null, weight: weight ? parseFloat(weight) : null, rpe: rpe ? parseInt(rpe) : null });
       });
       if (sets.length > 0) exercises.push({ id: card.dataset.exerciseId, name: card.querySelector('.exercise-name').textContent, muscle: card.querySelector('.exercise-muscle').textContent, sets: sets });
     });
@@ -75,7 +91,22 @@ class WorkoutLogger {
     const totalVolume = workout.exercises.reduce((sum, ex) => sum + ex.sets.reduce((s, set) => s + ((set.reps || 0) * (set.weight || 0)), 0), 0);
     await db.collection('users').doc(this.userId).update({ 'stats.totalWorkouts': firebase.firestore.FieldValue.increment(1), 'stats.totalVolume': firebase.firestore.FieldValue.increment(totalVolume), 'stats.lastWorkout': firebase.firestore.FieldValue.serverTimestamp() });
   }
-  loadExerciseLibrary() {}
+  
+  loadExerciseLibrary() {
+    const routine = Storage.get('activeRoutine');
+    if (routine) {
+      document.getElementById('workoutName').value = routine.name;
+      routine.exercises.forEach(ex => {
+        this.addExercise(ex);
+      });
+      Storage.remove('activeRoutine');
+    }
+    const quickStart = Storage.get('quickStartExercise');
+    if (quickStart) {
+      this.addExercise(quickStart);
+      Storage.remove('quickStartExercise');
+    }
+  }
 }
 window.addExercise = () => openModal('addExerciseModal');
 window.closeAddExerciseModal = () => closeModal('addExerciseModal');

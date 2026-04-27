@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>الإحصائيات - EgyFit Warrior Way</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <link rel="icon" type="image/png" href="../ic_logo.png">
+  <style>
+    .stats-header { text-align: center; margin-bottom: var(--spacing-lg); }
+    .stats-overview { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-sm); margin-bottom: var(--spacing-lg); }
+    .stat-box { background: var(--bg-card); border: 1px solid var(--border-light); padding: var(--spacing-md); border-radius: var(--radius-md); text-align: center; }
+    .stat-box .value { font-size: 1.5rem; color: var(--accent-gold); font-weight: 700; margin-bottom: 5px; }
+    .stat-box .label { font-size: 0.85rem; color: var(--text-secondary); }
+    
+    .chart-container { background: var(--bg-card); border: 1px solid var(--border-color); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); position: relative; }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .chart-title { font-size: 1rem; color: var(--text-primary); font-weight: 600; }
+    .chart-select { background: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-secondary); padding: 5px 10px; border-radius: var(--radius-sm); outline: none; }
+    
+    .calendar-wrapper { display: flex; flex-direction: column; gap: 5px; }
+    .cal-month { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+    .cal-month::-webkit-scrollbar { display: none; }
+    .cal-day { width: 30px; height: 30px; border-radius: 4px; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; border: 1px solid var(--border-color); }
+    .cal-day.active { background: rgba(212, 175, 55, 0.2); border-color: var(--accent-gold); color: var(--accent-gold); font-weight: bold; }
+    .cal-day.active-high { background: var(--accent-gold); color: #000; font-weight: bold; border-color: var(--accent-gold); }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <button class="back-btn" onclick="navigateTo('dashboard.html')">← رجوع</button>
+      <h2>📊 التطور والإحصائيات</h2>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="stats-overview">
+      <div class="stat-box">
+        <div class="value" id="statWorkouts">0</div>
+        <div class="label">إجمالي التمارين</div>
+      </div>
+      <div class="stat-box">
+        <div class="value" id="statVolume">0</div>
+        <div class="label">إجمالي الحجم (كجم)</div>
+      </div>
+    </div>
+
+    <!-- Calendar Heatmap -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">سجل التمارين (آخر 30 يوم)</div>
+      </div>
+      <div class="calendar-wrapper" id="calendarHeatmap">
+        <!-- JS will populate -->
+      </div>
+    </div>
+
+    <!-- Volume Chart -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">تطور الحجم التدريبي</div>
+      </div>
+      <canvas id="volumeChart" height="200"></canvas>
+    </div>
+
+    <!-- 1RM Chart -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">تطور الـ 1RM (أقصى وزن)</div>
+        <select class="chart-select" id="ormExerciseSelect" onchange="chartsManager.updateOrmChart()">
+          <option value="بنش برس بالبار">بنش برس</option>
+          <option value="سكوات بالبار">سكوات</option>
+          <option value="ديدليفت">ديدليفت</option>
+        </select>
+      </div>
+      <canvas id="ormChart" height="200"></canvas>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-link">🏠</a>
+    <a href="workout-logger.html" class="nav-link">💪</a>
+    <a href="programs.html" class="nav-link">📋</a>
+    <a href="progress.html" class="nav-link active">📊</a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/charts.js"></script>
+</body>
+</html>

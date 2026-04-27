@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>مكتبة التمارين - EgyFit Warrior Way</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <link rel="icon" type="image/png" href="../ic_logo.png">
+  <style>
+    .search-box { width: 100%; padding: 12px 20px; background: var(--bg-tertiary); border: 2px solid var(--border-light); border-radius: var(--radius-full); color: var(--text-primary); font-size: 1rem; outline: none; margin-bottom: var(--spacing-md); transition: border-color var(--transition-fast); }
+    .search-box:focus { border-color: var(--accent-gold); }
+    .filters { display: flex; gap: var(--spacing-sm); overflow-x: auto; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-lg); scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { padding: 8px 16px; background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-secondary); border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all var(--transition-fast); }
+    .filter-btn.active, .filter-btn:hover { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
+    .exercises-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--spacing-md); }
+    .ex-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: all var(--transition-fast); display: flex; flex-direction: column; }
+    .ex-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); box-shadow: var(--shadow-gold); }
+    .ex-thumb { height: 120px; background: linear-gradient(135deg, var(--bg-tertiary) 0%, rgba(26, 31, 58, 0.8) 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .ex-info { padding: var(--spacing-md); flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .ex-title { font-size: 1rem; font-weight: 700; margin-bottom: 5px; color: var(--text-primary); }
+    .ex-meta { font-size: 0.8rem; color: var(--text-secondary); display: flex; gap: 10px; }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <button class="back-btn" onclick="navigateTo('dashboard.html')">← رجوع</button>
+      <h2>📚 مكتبة التمارين</h2>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <input type="text" class="search-box" id="exSearch" placeholder="ابحث عن تمرين (مثال: بنش برس)...">
+    
+    <div class="filters" id="muscleFilters">
+      <button class="filter-btn active" data-filter="الكل">الكل</button>
+      <button class="filter-btn" data-filter="الصدر">الصدر</button>
+      <button class="filter-btn" data-filter="الظهر">الظهر</button>
+      <button class="filter-btn" data-filter="الأرجل">الأرجل</button>
+      <button class="filter-btn" data-filter="الأكتاف">الأكتاف</button>
+      <button class="filter-btn" data-filter="البايسبس">البايسبس</button>
+      <button class="filter-btn" data-filter="الترايسبس">الترايسبس</button>
+      <button class="filter-btn" data-filter="البطن">البطن</button>
+    </div>
+
+    <div class="exercises-grid" id="exercisesGrid">
+      <!-- Exercises will be loaded here -->
+    </div>
+  </main>
+
+  <!-- Exercise Details Modal -->
+  <div class="modal" id="exDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalExTitle">تفاصيل التمرين</h3>
+        <button class="close-btn" onclick="closeModal('exDetailsModal')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div id="modalExThumb" style="font-size: 5rem; margin-bottom: 20px;">💪</div>
+        <div style="display:flex; justify-content:center; gap: 10px; margin-bottom: 20px;">
+          <span id="modalExMuscle" style="background:var(--bg-tertiary); padding:5px 15px; border-radius:20px; font-size:0.9rem;"></span>
+          <span id="modalExEquip" style="background:var(--bg-tertiary); padding:5px 15px; border-radius:20px; font-size:0.9rem;"></span>
+        </div>
+        <p style="color:var(--text-secondary); margin-bottom:20px;">فيديو تعليمي تفصيلي سيتم إضافته قريباً بالتعاون مع مكتبة Lyfta للتمارين.</p>
+        <button class="btn-primary" style="width:100%;" onclick="startThisExercise()">تسجيل هذا التمرين</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-link">🏠</a>
+    <a href="workout-logger.html" class="nav-link">💪</a>
+    <a href="programs.html" class="nav-link">📋</a>
+    <a href="exercise-library-app.html" class="nav-link active">📚</a>
+  </nav>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/exercise-library.js"></script>
+</body>
+</html>
