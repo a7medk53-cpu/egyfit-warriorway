@@ -1,9 +1,1 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index-with-logo.html"
-    }
-  ]
-}
+{ "cleanUrls": true }
