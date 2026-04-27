@@ -816,6 +816,8 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
     </style>
+    <!-- Model Viewer for 3D Logo -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
     <!-- Hero Section -->
@@ -829,7 +831,16 @@
         <div class="hero-content">
             <!-- Logo with Image -->
             <div class="warrior-logo">
-                <img src="ic_logo.png" alt="EgyFit Warrior Way Logo" />
+                <model-viewer 
+                    src="bc82da61-a139-4ebd-90d2-3de5deab1ee8.glb" 
+                    alt="EgyFit Warrior Way 3D Logo" 
+                    auto-rotate 
+                    camera-controls 
+                    disable-zoom
+                    style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary-gold); padding: 5px; box-sizing: border-box; background: rgba(0,0,0,0.2);" 
+                    shadow-intensity="1"
+                    exposure="1.2">
+                </model-viewer>
             </div>
             
             <h1>
