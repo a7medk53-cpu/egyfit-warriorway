@@ -147,6 +147,10 @@
       el.style.display = 'block';
       setTimeout(() => el.style.display = 'none', 5000);
     }
+    function skipLogin() {
+      localStorage.setItem('guestMode', 'true');
+      window.location.href = 'dashboard.html';
+    }
   </script>
 </body>
 </html>
