@@ -1,0 +1,19 @@
+[dir="rtl"] .header-left { flex-direction: row-reverse; }
+[dir="rtl"] .header-right { flex-direction: row-reverse; }
+[dir="rtl"] .nav-item { flex-direction: row-reverse; }
+[dir="rtl"] .action-card { flex-direction: column; }
+[dir="rtl"] .workout-item { flex-direction: row-reverse; }
+[dir="rtl"] .workout-stats { text-align: right; }
+[dir="rtl"] .chat-input { flex-direction: row-reverse; }
+[dir="rtl"] .message.user { border-bottom-left-radius: var(--radius-md); border-bottom-right-radius: var(--radius-sm); }
+[dir="rtl"] .message.ai { border-bottom-right-radius: var(--radius-md); border-bottom-left-radius: var(--radius-sm); }
+[dir="rtl"] .floating-ai { left: auto; right: var(--spacing-lg); }
+[dir="rtl"] .sidebar { right: auto; left: -280px; border-right: 1px solid var(--border-color); border-left: none; }
+[dir="rtl"] .sidebar.active { left: 0; }
+@media (min-width: 768px) {
+  [dir="rtl"] .sidebar { left: 0; right: auto; border-left: 1px solid var(--border-color); border-right: none; }
+  [dir="rtl"] .main-content { margin-right: 0; margin-left: 240px; padding-right: var(--spacing-lg); padding-left: var(--spacing-xl); }
+}
+[dir="rtl"] input, [dir="rtl"] textarea, [dir="rtl"] select { text-align: right; }
+[dir="rtl"] input::placeholder, [dir="rtl"] textarea::placeholder { text-align: right; }
+[dir="rtl"] canvas { direction: rtl; }

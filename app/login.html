@@ -1,1 +1,149 @@
-<!-- login.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>تسجيل الدخول - EgyFit Warrior Way</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <link rel="icon" type="image/png" href="../ic_logo.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(26, 26, 46, 0.95);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+    .logo-section { text-align: center; margin-bottom: 2rem; }
+    .logo-section img {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 3px solid #ffd700; margin-bottom: 1rem; object-fit: cover;
+    }
+    .logo-section h1 { font-size: 1.5rem; color: #ffd700; margin-bottom: 0.5rem; }
+    .logo-section p { color: #aaa; font-size: 0.95rem; }
+    .welcome-text { text-align: center; margin-bottom: 2rem; }
+    .welcome-text h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .welcome-text p { color: #888; font-size: 0.9rem; }
+    .social-btn {
+      width: 100%; padding: 14px 20px; margin: 10px 0; border: none;
+      border-radius: 14px; background: #fff; color: #1a1a2e; font-weight: 600;
+      font-size: 1rem; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: 12px; transition: all 0.2s ease;
+    }
+    .social-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .social-btn.google { background: #fff; }
+    .social-btn.apple { background: #000; color: #fff; }
+    .divider {
+      text-align: center; margin: 25px 0; color: #666; position: relative; font-size: 0.9rem;
+    }
+    .divider::before {
+      content: ""; position: absolute; top: 50%; left: 0; right: 0;
+      height: 1px; background: linear-gradient(90deg, transparent, #444, transparent);
+    }
+    .divider span { background: rgba(26, 26, 46, 0.95); padding: 0 20px; position: relative; z-index: 1; }
+    .email-form { display: flex; flex-direction: column; gap: 12px; }
+    .email-form input {
+      padding: 14px 18px; border-radius: 12px; border: 1px solid #444;
+      background: #222; color: #fff; font-size: 1rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-form input:focus { border-color: #ffd700; }
+    .email-form input::placeholder { color: #777; }
+    .btn-primary {
+      width: 100%; padding: 14px; border: none; border-radius: 14px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+      color: #000; font-weight: 700; font-size: 1.05rem; cursor: pointer;
+      transition: all 0.2s; margin-top: 10px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .footer-links { text-align: center; margin-top: 25px; font-size: 0.9rem; color: #888; }
+    .footer-links a { color: #ffd700; text-decoration: none; margin: 0 5px; }
+    .footer-links a:hover { text-decoration: underline; }
+    .error-msg {
+      background: rgba(255, 82, 82, 0.15); color: #ff6b6b; padding: 10px 15px;
+      border-radius: 10px; margin-bottom: 15px; font-size: 0.9rem;
+      display: none; border: 1px solid rgba(255, 82, 82, 0.3);
+    }
+    .loading { display: none; text-align: center; padding: 10px; color: #ffd700; }
+    @media (max-width: 480px) {
+      .login-container { padding: 2rem 1.5rem; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-section">
+      <img src="../ic_logo.png" alt="EgyFit Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ffd700\'/><text x=\'50\' y=\'60\' font-size=\'40\' text-anchor=\'middle\' fill=\'%231a1a2e\'>⚔️</text></svg>'">
+      <h1>Warrior Way ⚔️</h1>
+      <p>رحلتك نحو القوة تبدأ من هنا</p>
+    </div>
+    <div class="welcome-text">
+      <h2>أهلاً بك يا محارب 👋</h2>
+      <p>سجل دخولك لمتابعة تقدمك وبدء تمارينك</p>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="loading" id="loading">جاري التحميل...</div>
+    <button class="social-btn google" onclick="signInWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      المتابعة بحساب جوجل
+    </button>
+    <button class="social-btn apple" onclick="signInWithApple()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.13-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      المتابعة بحساب أبل
+    </button>
+    <div class="divider"><span>أو استخدم البريد الإلكتروني</span></div>
+    <form class="email-form" id="emailForm">
+      <input type="email" id="email" placeholder="البريد الإلكتروني" required autocomplete="email">
+      <input type="password" id="password" placeholder="كلمة المرور" required autocomplete="current-password">
+      <button type="submit" class="btn-primary">تسجيل الدخول</button>
+    </form>
+    <div class="footer-links">
+      <a href="#" onclick="showForgotPassword()">نسيت كلمة المرور؟</a> | 
+      <a href="#" onclick="toggleSignUp()">إنشاء حساب جديد</a>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script>
+    let isSignUp = false;
+    function toggleSignUp() {
+      isSignUp = !isSignUp;
+      document.querySelector('.welcome-text h2').textContent = isSignUp ? 'إنشاء حساب جديد 🎉' : 'أهلاً بك يا محارب 👋';
+      document.querySelector('.welcome-text p').textContent = isSignUp ? 'انضم إلينا وابدأ رحلتك نحو القوة' : 'سجل دخولك لمتابعة تقدمك وبدء تمارينك';
+      document.querySelector('.btn-primary').textContent = isSignUp ? 'إنشاء الحساب' : 'تسجيل الدخول';
+    }
+    function showForgotPassword() {
+      const email = prompt('أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور:');
+      if (email) {
+        firebase.auth().sendPasswordResetEmail(email)
+          .then(() => alert('تم إرسال رابط إعادة التعيين إلى بريدك'))
+          .catch(err => showError(err.message));
+      }
+    }
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => el.style.display = 'none', 5000);
+    }
+  </script>
+</body>
+</html>

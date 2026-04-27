@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة التمارين الذكية - Warrior Way</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0a0e27;
+            --secondary-dark: #1a1f3a;
+            --accent-gold: #f0d860;
+            --text-light: #e8eaed;
+            --text-muted: #b0b3b8;
+            --warrior-red: #c41e3a;
+            --success: #10b981;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f1429 100%);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.9) 100%);
+            padding: 20px;
+            border-bottom: 2px solid var(--primary-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-title h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        .favorites-count {
+            background: var(--warrior-red);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Body Part Navigation */
+        .body-part-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .body-part-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .body-part-nav::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+        }
+
+        .body-part-nav::-webkit-scrollbar-thumb {
+            background: var(--primary-gold);
+            border-radius: 10px;
+        }
+
+        .body-part-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 25px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .body-part-btn:hover {
+            border-color: var(--primary-gold);
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(212, 175, 55, 0.1) 100%);
+        }
+
+        .body-part-btn.active {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            color: var(--dark-bg);
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 50px;
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            border-color: var(--accent-gold);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        /* Filters */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-group select {
+            padding: 10px 15px;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group select:hover,
+        .filter-group select:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-group select option {
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .results-count {
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .clear-filters {
+            background: transparent;
+            border: 1px solid var(--warrior-red);
+            color: var(--warrior-red);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .clear-filters:hover {
+            background: var(--warrior-red);
+            color: white;
+        }
+
+        /* Exercises Grid */
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .exercise-card {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.8) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .exercise-header {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            overflow: hidden;
+        }
+
+        .exercise-header::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 0, 0, 0.05) 10px,
+                rgba(0, 0, 0, 0.05) 20px
+            );
+        }
+
+        .exercise-emoji {
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .exercise-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exercise-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .category-badge {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
+        }
+
+        .difficulty-badge {
+            background: rgba(196, 30, 58, 0.2);
+            color: var(--warrior-red);
+        }
+
+        .exercise-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .detail-item {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-gold);
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: var(--primary-gold);
+            font-size: 0.9rem;
+        }
+
+        .exercise-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 10px 0;
+            flex-grow: 1;
+        }
+
+        .exercise-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .equipment-badge {
+            background: rgba(196, 30, 58, 0.2);
+            color: var(--warrior-red);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .favorite-btn:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        .favorite-btn.liked {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+            grid-column: 1/-1;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, rgba(26, 31, 58, 0.9) 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--primary-gold);
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .modal-body {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: var(--primary-gold);
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .modal-stat {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .modal-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .modal-stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            .exercises-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .body-part-nav {
+                margin-bottom: 20px;
+            }
+
+            .modal-content {
+                margin: 20% auto;
+                width: 95%;
+            }
+
+            .modal-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-title">
+                <h1>💪 مكتبة التمارين - Warrior Way</h1>
+            </div>
+            <div class="favorites-count">
+                ❤️ <span id="favCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Body Part Navigation Tabs -->
+        <div class="body-part-nav" id="bodyPartNav">
+            <button class="body-part-btn active" onclick="filterByBodyPart('الكل')">
+                🏋️ الكل
+            </button>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="ابحث عن تمرين... (اكتب اسم أو عضلة)"
+                >
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>مستوى الصعوبة</label>
+                    <select id="difficultyFilter">
+                        <option value="">الكل</option>
+                        <option value="مبتدئ">مبتدئ</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="متقدم">متقدم</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>نوع المعدات</label>
+                    <select id="equipmentFilter">
+                        <option value="">الكل</option>
+                        <option value="بدون معدات">بدون معدات</option>
+                        <option value="دمبل">دمبل</option>
+                        <option value="بار">بار</option>
+                        <option value="ماشين">ماشين</option>
+                        <option value="حبل">حبل</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="results-info">
+                <span class="results-count">
+                    <span id="resultCount">0</span> تمرين
+                </span>
+                <button class="clear-filters" onclick="clearFilters()">مسح الفلاتر</button>
+            </div>
+        </div>
+
+        <!-- Exercises Grid -->
+        <div class="exercises-grid" id="exercisesGrid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <div style="font-size: 2rem; color: var(--primary-gold); margin-bottom: 10px;">⏳</div>
+                <p style="color: var(--text-muted);">جارٍ تحميل التمارين...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Detail Modal -->
+    <div id="exerciseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p style="color: var(--text-muted); margin-top: 5px;" id="modalCategory"></p>
+                </div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // البيانات
+        const exercises = [
+            // صدر
+            { id: 1, name: "البنش برس", emoji: "🏋️", category: "صدر", difficulty: "مبتدئ", equipment: "بار", sets: 4, reps: "8-10", description: "تمرين أساسي لبناء عضلات الصدر.", tips: "حافظ على ظهرك على المقعد، ركز على عضلات الصدر أثناء الدفع." },
+            { id: 2, name: "اليقطة المائلة", emoji: "💪", category: "صدر", difficulty: "متوسط", equipment: "دمبل", sets: 3, reps: "10-12", description: "تمرين لاستهداف الجزء العلوي من الصدر.", tips: "اجعل المقعد مائل 45 درجة، تحكم بالحركة ببطء." },
+            { id: 3, name: "الضغط على الصدر", emoji: "⚙️", category: "صدر", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين آمن وفعال للمبتدئين.", tips: "ابدأ بوزن خفيف، تحكم بالحركة بشكل كامل." },
+            { id: 4, name: "ضغط الدمبل على الأرض", emoji: "💪", category: "صدر", difficulty: "متقدم", equipment: "دمبل", sets: 4, reps: "6-8", description: "تمرين متقدم لزيادة القوة والعضلات.", tips: "استخدم وزن ثقيل، اطلب مساعدة في الحركة الأولى." },
+            { id: 29, name: "تمرين الفراشة", emoji: "🦋", category: "صدر", difficulty: "متوسط", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين معزول للصدر الوسطي.", tips: "حافظ على الكوعين مرفوعين، تحكم في الحركة." },
+
+            // ظهر
+            { id: 5, name: "الجذب للأسفل", emoji: "🎯", category: "ظهر", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "10-12", description: "تمرين أساسي لبناء عضلات الظهر العلوية.", tips: "اسحب الحبل باتجاه صدرك، توقف قليلاً في الأسفل." },
+            { id: 6, name: "صفوف الدمبل", emoji: "🏋️", category: "ظهر", difficulty: "متوسط", equipment: "دمبل", sets: 4, reps: "8-10", description: "تمرين فعال لعضلات الظهر الوسطية.", tips: "حافظ على ظهرك مستقيماً، اسحب من مرفقيك." },
+            { id: 7, name: "الجر على الكابل", emoji: "⚙️", category: "ظهر", difficulty: "متوسط", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين متوازن لجميع أجزاء الظهر.", tips: "ابدأ من الجلوس المستقيم، اسحب من الكابل." },
+            { id: 8, name: "الضغط على الظهر", emoji: "🎯", category: "ظهر", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12", description: "تمرين آمن وسهل للمبتدئين.", tips: "ركز على التحكم بالحركة وليس الوزن." },
+            { id: 30, name: "صفوف البار", emoji: "📍", category: "ظهر", difficulty: "متوسط", equipment: "بار", sets: 4, reps: "8-10", description: "تمرين شامل للظهر بأكمله.", tips: "ابدأ من وضع الانحناء، اسحب البار نحو صدرك." },
+
+            // أرجل
+            { id: 9, name: "القرفصاء", emoji: "🦵", category: "أرجل", difficulty: "متوسط", equipment: "بار", sets: 4, reps: "8-10", description: "ملك التمارين - أقوى تمرين للأرجل.", tips: "حافظ على صدرك مرفوعاً، انزل حتى تكون الركبتان بزاوية 90 درجة." },
+            { id: 10, name: "ضغط الأرجل", emoji: "⚙️", category: "أرجل", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين آمن وسهل للأرجل.", tips: "لا تقفل الركبتان عند الرفع، اسحب من الكعبين." },
+            { id: 11, name: "السكوات بالدمبل", emoji: "💪", category: "أرجل", difficulty: "متوسط", equipment: "دمبل", sets: 3, reps: "10-12", description: "نسخة أخف من القرفصاء العادي.", tips: "احمل الدمبل على جانبيك، اغني عن الحزام." },
+            { id: 12, name: "Leg Extensions", emoji: "🎯", category: "أرجل", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "15-20", description: "تمرين معزول لعضلة الفخذ الأمامية.", tips: "بطء في الحركة، اشعر بالعضلة." },
+            { id: 31, name: "Leg Curls", emoji: "🦵", category: "أرجل", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين معزول لعضلات الفخذ الخلفية.", tips: "تحكم في الحركة، لا تستخدم زخم." },
+
+            // كتفين
+            { id: 13, name: "الضغط العسكري", emoji: "🪖", category: "كتفين", difficulty: "متوسط", equipment: "بار", sets: 4, reps: "8-10", description: "تمرين أساسي لبناء الكتفين.", tips: "ابدأ من مستوى الكتفين، اضغط للأعلى بقوة." },
+            { id: 14, name: "رفع الأمامي بالدمبل", emoji: "💪", category: "كتفين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "12-15", description: "تمرين لاستهداف الأمام من الكتفين.", tips: "ارفع الدمبل للأمام والأعلى، توقف قليلاً." },
+            { id: 15, name: "رفع الجانبي", emoji: "🎯", category: "كتفين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "15-20", description: "تمرين لتوسيع الكتفين.", tips: "استخدم وزن خفيف، حافظ على الكوعين مرفوعين." },
+            { id: 16, name: "الضغط على الكتفين", emoji: "⚙️", category: "كتفين", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12-15", description: "نسخة آمنة من الضغط العسكري.", tips: "تحكم بالحركة، ركز على الكتفين." },
+            { id: 32, name: "رفع خلفي بالدمبل", emoji: "🦅", category: "كتفين", difficulty: "متوسط", equipment: "دمبل", sets: 3, reps: "12-15", description: "تمرين لعضلات الكتفين الخلفية.", tips: "حافظ على الكوعين عالياً، لا تستخدم زخم." },
+
+            // ذراعين
+            { id: 17, name: "تمرين البايسبس", emoji: "💪", category: "ذراعين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "10-12", description: "تمرين أساسي لبناء ذراعين قوية.", tips: "ثبت مرفقك على جسدك، ارفع من الدمبل." },
+            { id: 18, name: "تمرين التراي سيبس", emoji: "🏋️", category: "ذراعين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "12-15", description: "تمرين لعضلات الذراع الخلفية.", tips: "حافظ على المرفقين بجانب جسدك." },
+            { id: 19, name: "تمرين الكابل للبايسبس", emoji: "🎯", category: "ذراعين", difficulty: "متوسط", equipment: "ماشين", sets: 3, reps: "12-15", description: "تمرين معزول بضغط ثابت.", tips: "تحكم بالحركة، اشعر بالعضلة." },
+            { id: 20, name: "تمرين الضغط للخلف", emoji: "💪", category: "ذراعين", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "12", description: "تمرين آمن للمبتدئين للتراي سيبس.", tips: "بطء في الحركة، توقف قليلاً في الأعلى." },
+            { id: 33, name: "Hammer Curls", emoji: "🔨", category: "ذراعين", difficulty: "مبتدئ", equipment: "دمبل", sets: 3, reps: "10-12", description: "تمرين آمن للبايسبس.", tips: "أمسك الدمبل كأنك تمسك مطرقة، ارفع للأعلى." },
+
+            // بطن
+            { id: 21, name: "تمرين الكرانشز", emoji: "😤", category: "بطن", difficulty: "مبتدئ", equipment: "بدون معدات", sets: 3, reps: "15-20", description: "تمرين أساسي لعضلات البطن.", tips: "رفع من الكتفين فقط، ليس من الرقبة." },
+            { id: 22, name: "تمرين البلانك", emoji: "📍", category: "بطن", difficulty: "متوسط", equipment: "بدون معدات", sets: 3, reps: "30-60 ثانية", description: "تمرين معزول وفعال للبطن.", tips: "حافظ على جسدك مستقيماً، لا تترك الحوض." },
+            { id: 23, name: "تمرين الكرانشز بالماشين", emoji: "⚙️", category: "بطن", difficulty: "مبتدئ", equipment: "ماشين", sets: 3, reps: "15-20", description: "نسخة آمنة من الكرانشز.", tips: "تحكم بالحركة، ركز على البطن." },
+            { id: 24, name: "تمرين الدراجة", emoji: "🚴", category: "بطن", difficulty: "مبتدئ", equipment: "بدون معدات", sets: 3, reps: "20-30", description: "تمرين فعال لعضلات البطن السفلية.", tips: "تحكم بالحركة، اسحب المرفق للركبة المقابلة." },
+            { id: 34, name: "تمرين الرفع المعلق", emoji: "🏃", category: "بطن", difficulty: "متقدم", equipment: "بدون معدات", sets: 3, reps: "8-12", description: "تمرين متقدم للبطن السفلي.", tips: "تحكم في الحركة، ارفع ركبتيك ببطء." },
+
+            // حرق سعرات
+            { id: 25, name: "الجري على الجهاز", emoji: "🏃", category: "حرق سعرات", difficulty: "مبتدئ", equipment: "ماشين", sets: 1, reps: "20-30 دقيقة", description: "تمرين هوائي لحرق السعرات.", tips: "ابدأ برفق، زد السرعة تدريجياً." },
+            { id: 26, name: "تمرين بوكس جمبس", emoji: "📦", category: "حرق سعرات", difficulty: "متوسط", equipment: "بدون معدات", sets: 3, reps: "10-15", description: "تمرين انفجاري لحرق السعرات بسرعة.", tips: "اقفز بقوة، ارتاح قليلاً بين التكرارات." },
+            { id: 27, name: "Burpees", emoji: "🤸", category: "حرق سعرات", difficulty: "متقدم", equipment: "بدون معدات", sets: 3, reps: "10", description: "تمرين كامل الجسم لحرق السعرات.", tips: "أداء سريع، حافظ على الشكل الصحيح." },
+            { id: 28, name: "تمرين القفز بالحبل", emoji: "🪢", category: "حرق سعرات", difficulty: "متوسط", equipment: "حبل", sets: 3, reps: "60-90 ثانية", description: "تمرين كلاسيكي فعال جداً.", tips: "قفز على أصابع القدمين، حافظ على الإيقاع." },
+            { id: 35, name: "Mountain Climbers", emoji: "⛰️", category: "حرق سعرات", difficulty: "متوسط", equipment: "بدون معدات", sets: 3, reps: "30 ثانية", description: "تمرين هوائي لحرق السعرات السريع.", tips: "حافظ على ظهرك مستقيماً، تحرك بسرعة." },
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let currentBodyPart = 'الكل';
+
+        // إنشاء تابيزات العضلات
+        function initBodyPartTabs() {
+            const bodyParts = ['صدر', 'ظهر', 'أرجل', 'كتفين', 'ذراعين', 'بطن', 'حرق سعرات'];
+            const nav = document.getElementById('bodyPartNav');
+            
+            bodyParts.forEach(part => {
+                const btn = document.createElement('button');
+                btn.className = 'body-part-btn';
+                btn.textContent = `${getEmojiForBodyPart(part)} ${part}`;
+                btn.onclick = () => filterByBodyPart(part);
+                nav.appendChild(btn);
+            });
+        }
+
+        function getEmojiForBodyPart(part) {
+            const emojis = {
+                'صدر': '🏋️',
+                'ظهر': '🎯',
+                'أرجل': '🦵',
+                'كتفين': '🪖',
+                'ذراعين': '💪',
+                'بطن': '😤',
+                'حرق سعرات': '🔥'
+            };
+            return emojis[part] || '💪';
+        }
+
+        // فلترة حسب العضلة
+        function filterByBodyPart(part) {
+            currentBodyPart = part;
+            document.querySelectorAll('.body-part-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            filterExercises();
+        }
+
+        // البحث والفلترة
+        function filterExercises() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const equipment = document.getElementById('equipmentFilter').value;
+
+            const filtered = exercises.filter(ex => {
+                const matchBodyPart = currentBodyPart === 'الكل' || ex.category === currentBodyPart;
+                const matchSearch = ex.name.includes(search) || ex.category.includes(search);
+                const matchDifficulty = !difficulty || ex.difficulty === difficulty;
+                const matchEquipment = !equipment || ex.equipment === equipment;
+                
+                return matchBodyPart && matchSearch && matchDifficulty && matchEquipment;
+            });
+
+            displayExercises(filtered);
+        }
+
+        // عرض التمارين
+        function displayExercises(filteredExercises) {
+            const grid = document.getElementById('exercisesGrid');
+            const count = document.getElementById('resultCount');
+
+            if (filteredExercises.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🤔</div>
+                        <h2>لم نجد تمارين تطابق بحثك</h2>
+                        <p>جرب تغيير الفلاتر أو اختيار عضلة أخرى</p>
+                    </div>
+                `;
+                count.textContent = 0;
+                return;
+            }
+
+            grid.innerHTML = filteredExercises.map(exercise => `
+                <div class="exercise-card" onclick="showModal(${exercise.id})">
+                    <div class="exercise-header">
+                        <span class="exercise-emoji">${exercise.emoji}</span>
+                    </div>
+                    <div class="exercise-body">
+                        <h3 class="exercise-title">${exercise.name}</h3>
+                        
+                        <div class="exercise-meta">
+                            <span class="badge category-badge">${exercise.category}</span>
+                            <span class="badge difficulty-badge">
+                                ${'⭐'.repeat(exercise.difficulty === 'مبتدئ' ? 1 : exercise.difficulty === 'متوسط' ? 2 : 3)}
+                            </span>
+                        </div>
+
+                        <div class="exercise-details">
+                            <div class="detail-item">
+                                <div class="detail-label">المجموعات</div>
+                                <div class="detail-value">${exercise.sets}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">التكرارات</div>
+                                <div class="detail-value">${exercise.reps}</div>
+                            </div>
+                        </div>
+
+                        <p class="exercise-description">${exercise.description}</p>
+
+                        <div class="exercise-footer">
+                            <span class="equipment-badge">${exercise.equipment}</span>
+                            <button class="favorite-btn ${favorites.includes(exercise.id) ? 'liked' : ''}" onclick="toggleFavorite(event, ${exercise.id})">
+                                ${favorites.includes(exercise.id) ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            count.textContent = filteredExercises.length;
+        }
+
+        // المفضلة
+        function toggleFavorite(event, id) {
+            event.stopPropagation();
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            document.getElementById('favCount').textContent = favorites.length;
+            filterExercises();
+        }
+
+        // Modal
+        function showModal(id) {
+            const exercise = exercises.find(e => e.id === id);
+            document.getElementById('modalTitle').textContent = exercise.name;
+            document.getElementById('modalCategory').textContent = `${getEmojiForBodyPart(exercise.category)} ${exercise.category}`;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-stats">
+                    <div class="modal-stat">
+                        <div class="modal-stat-label">المجموعات</div>
+                        <div class="modal-stat-value">${exercise.sets}</div>
+                    </div>
+                    <div class="modal-stat">
+                        <div class="modal-stat-label">التكرارات</div>
+                        <div class="modal-stat-value">${exercise.reps}</div>
+                    </div>
+                    <div class="modal-stat">
+                        <div class="modal-stat-label">المعدات</div>
+                        <div class="modal-stat-value">${exercise.equipment}</div>
+                    </div>
+                    <div class="modal-stat">
+                        <div class="modal-stat-label">الصعوبة</div>
+                        <div class="modal-stat-value">${exercise.difficulty}</div>
+                    </div>
+                </div>
+                
+                <h3>الوصف</h3>
+                <p>${exercise.description}</p>
+                
+                <h3>نصائح التنفيذ</h3>
+                <p>${exercise.tips}</p>
+                
+                <h3>نصائح أمان</h3>
+                <p>تأكد من أداء الحركة بشكل صحيح. ابدأ بوزن خفيف واعمل على الشكل قبل زيادة الوزن. إذا شعرت بألم، توقف فوراً واستشر محترفاً.</p>
+            `;
+            document.getElementById('exerciseModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('exerciseModal').style.display = 'none';
+        }
+
+        window.onclick = (event) => {
+            const modal = document.getElementById('exerciseModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterExercises);
+        document.getElementById('difficultyFilter').addEventListener('change', filterExercises);
+        document.getElementById('equipmentFilter').addEventListener('change', filterExercises);
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('equipmentFilter').value = '';
+            currentBodyPart = 'الكل';
+            document.querySelector('.body-part-btn.active').classList.remove('active');
+            document.querySelector('.body-part-btn').classList.add('active');
+            displayExercises(exercises);
+        }
+
+        // التهيئة
+        document.getElementById('favCount').textContent = favorites.length;
+        initBodyPartTabs();
+        
+        window.addEventListener('load', () => {
+            displayExercises(exercises);
+        });
+    </script>
+</body>
+</html>
