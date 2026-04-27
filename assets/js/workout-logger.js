@@ -1,6 +1,6 @@
 /** EgyFit Warrior Way - Workout Logger Module */
 class WorkoutLogger {
-  constructor() { this.userId = auth.currentUser?.uid; this.workoutId = null; this.exercises = []; this.restTimer = null; this.restTimerSeconds = 0; this.isTimerRunning = false; this.init(); }
+  constructor() { this.userId = auth.currentUser?.uid || (localStorage.getItem('guestMode') === 'true' ? 'guest_user' : null); this.workoutId = null; this.exercises = []; this.restTimer = null; this.restTimerSeconds = 0; this.isTimerRunning = false; this.init(); }
   init() { if (!this.userId) { window.location.href = 'login.html'; return; } this.setDateDisplay(); this.startWorkoutTimer(); this.setupEventListeners(); this.loadExerciseLibrary(); }
   setDateDisplay() { const dateEl = document.getElementById('workoutDate'); if (dateEl) dateEl.querySelector('span').textContent = formatDateArabic(); }
   startWorkoutTimer() { this.workoutStartTime = Date.now(); this.timerInterval = setInterval(() => { const elapsed = Math.floor((Date.now() - this.workoutStartTime) / 1000); const durationEl = document.querySelector('#workoutDuration span'); if (durationEl) durationEl.textContent = formatDuration(elapsed); }, 1000); }

@@ -1,6 +1,6 @@
 /** EgyFit Warrior Way - Dashboard Module */
 class WarriorDashboard {
-  constructor() { this.userId = auth.currentUser?.uid; this.userData = null; this.init(); }
+  constructor() { this.userId = auth.currentUser?.uid || (localStorage.getItem('guestMode') === 'true' ? 'guest_user' : null); this.userData = null; this.init(); }
   async init() {
     if (!this.userId) { window.location.href = 'login.html'; return; }
     await this.loadUserData(); this.setDateDisplay(); this.renderStats(); this.renderWeeklyChart(); this.renderRecentWorkouts(); this.setupEventListeners();

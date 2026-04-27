@@ -1,7 +1,7 @@
 /** EgyFit Warrior Way - Programs Module */
 class ProgramsManager {
   constructor() {
-    this.userId = auth.currentUser?.uid;
+    this.userId = auth.currentUser?.uid || (localStorage.getItem('guestMode') === 'true' ? 'guest_user' : null);
     this.myRoutines = [];
     this.currentEditingRoutine = { id: null, name: '', exercises: [] };
     this.presetPrograms = [

@@ -2,7 +2,7 @@
 
 class ChartsManager {
   constructor() {
-    this.userId = auth.currentUser?.uid;
+    this.userId = auth.currentUser?.uid || (localStorage.getItem('guestMode') === 'true' ? 'guest_user' : null);
     this.workouts = [];
     this.volumeChartInstance = null;
     this.ormChartInstance = null;

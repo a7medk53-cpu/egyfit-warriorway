@@ -1,9 +1,11 @@
 /** EgyFit Warrior Way - Authentication Module */
 document.addEventListener('DOMContentLoaded', () => {
   auth.onAuthStateChanged(user => {
-    if (user) {
+    const isGuest = localStorage.getItem('guestMode') === 'true';
+    if (user || isGuest) {
       if (window.location.pathname.includes('login.html')) window.location.href = 'dashboard.html';
-      updateUserUI(user);
+      if (user) updateUserUI(user);
+      else updateUserUI({ displayName: 'مستخدم ضيف', uid: 'guest_user' });
     } else {
       if (!window.location.pathname.includes('login.html') && !window.location.pathname.includes('index.html')) {
         window.location.href = 'login.html';
@@ -11,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+function skipLogin() {
+  localStorage.setItem('guestMode', 'true');
+  window.location.href = 'dashboard.html';
+}
 async function signInWithGoogle() {
   showLoading(true);
   try {
@@ -66,7 +72,7 @@ function updateUserUI(user) {
   const welcomeMsg = document.getElementById('welcomeMsg');
   if (welcomeMsg && user.displayName) welcomeMsg.textContent = `أهلاً بك، ${user.displayName}! 👋`;
 }
-async function signOut() { try { await auth.signOut(); window.location.href = 'login.html'; } catch (error) { showError('فشل تسجيل الخروج'); console.error('Sign out error:', error); } }
+async function signOut() { try { localStorage.removeItem('guestMode'); if (auth.currentUser) await auth.signOut(); window.location.href = 'login.html'; } catch (error) { showError('فشل تسجيل الخروج'); console.error('Sign out error:', error); } }
 function showLoading(show) { const loading = document.getElementById('loading'); if (loading) loading.style.display = show ? 'block' : 'none'; }
 function showError(msg) { const errorEl = document.getElementById('errorMsg'); if (errorEl) { errorEl.textContent = msg; errorEl.style.display = 'block'; setTimeout(() => { errorEl.style.display = 'none'; }, 5000); } else { alert(msg); } }
 function getAuthErrorMessage(code) {
@@ -79,4 +85,4 @@ function getAuthErrorMessage(code) {
   return messages[code] || 'حدث خطأ، حاول مرة أخرى';
 }
 window.signInWithGoogle = signInWithGoogle; window.signInWithApple = signInWithApple;
-window.signOut = signOut; window.updateUserUI = updateUserUI;
+window.signOut = signOut; window.updateUserUI = updateUserUI; window.skipLogin = skipLogin;
