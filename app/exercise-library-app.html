@@ -6,7 +6,9 @@
   <title>مكتبة التمارين - EgyFit Warrior Way</title>
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/rtl.css">
-  <link rel="icon" type="image/png" href="../ic_logo.png">
+  <link rel="icon" type="image/png" href="../assets/ic_logo.png">
+  <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script src="../assets/js/navigation.js" defer></script>
   <style>
     .search-box { width: 100%; padding: 12px 20px; background: var(--bg-tertiary); border: 2px solid var(--border-light); border-radius: var(--radius-full); color: var(--text-primary); font-size: 1rem; outline: none; margin-bottom: var(--spacing-md); transition: border-color var(--transition-fast); }
     .search-box:focus { border-color: var(--accent-gold); }
@@ -26,10 +28,31 @@
 <body>
   <header class="app-header">
     <div class="header-left">
-      <button class="back-btn" onclick="navigateTo('dashboard.html')">← رجوع</button>
-      <h2>📚 مكتبة التمارين</h2>
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="logo">
+        <model-viewer src="../bc82da61-a139-4ebd-90d2-3de5deab1ee8.glb" alt="Warrior Way Logo" autofocus camera-controls auto-rotate style="width:40px;height:40px;"></model-viewer>
+        <span>مكتبة التمارين</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="ai-coach-btn" onclick="openAICoach()">🤖 المدرب الذكي</button>
+      <div class="user-avatar" onclick="goToProfile()"><span id="userInitial">م</span></div>
     </div>
   </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="nav-menu">
+      <a href="dashboard.html" class="nav-item" data-page="dashboard">🏠 الرئيسية</a>
+      <a href="workout-logger.html" class="nav-item" data-page="workout-logger">💪 تسجيل تمرين</a>
+      <a href="exercise-library-app.html" class="nav-item active" data-page="exercise-library-app">📚 مكتبة التمارين</a>
+      <a href="progress.html" class="nav-item" data-page="progress">📊 التقدم</a>
+      <a href="programs.html" class="nav-item" data-page="programs">🎯 برامج التدريب</a>
+      <a href="features.html" class="nav-item" data-page="features">✨ الميزات</a>
+      <a href="about.html" class="nav-item" data-page="about">ℹ️ حولنا</a>
+      <a href="contact.html" class="nav-item" data-page="contact">✉️ تواصل معنا</a>
+      <a href="#" class="nav-item logout" onclick="signOut()">🚪 تسجيل الخروج</a>
+    </nav>
+  </aside>
 
   <main class="main-content">
     <input type="text" class="search-box" id="exSearch" placeholder="ابحث عن تمرين (مثال: بنش برس)...">
@@ -70,10 +93,11 @@
   </div>
 
   <nav class="bottom-nav">
-    <a href="dashboard.html" class="nav-link">🏠</a>
-    <a href="workout-logger.html" class="nav-link">💪</a>
-    <a href="programs.html" class="nav-link">📋</a>
-    <a href="exercise-library-app.html" class="nav-link active">📚</a>
+    <a href="dashboard.html" class="nav-link" data-page="dashboard"><span>🏠</span><span>الرئيسية</span></a>
+    <a href="workout-logger.html" class="nav-link" data-page="workout-logger"><span>💪</span><span>تسجيل</span></a>
+    <a href="exercise-library-app.html" class="nav-link active" data-page="exercise-library-app"><span>📚</span><span>المكتبة</span></a>
+    <a href="progress.html" class="nav-link" data-page="progress"><span>📊</span><span>التقدم</span></a>
+    <a href="dashboard.html" class="nav-link" onclick="goToProfile()"><span>👤</span><span>حسابي</span></a>
   </nav>
 
   <script src="../assets/js/utils.js"></script>

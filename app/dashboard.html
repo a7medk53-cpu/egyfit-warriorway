@@ -9,13 +9,15 @@
   <link rel="stylesheet" href="../assets/css/rtl.css">
   <link rel="icon" type="image/png" href="../ic_logo.png">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script src="../assets/js/navigation.js" defer></script>
 </head>
 <body>
   <header class="app-header">
     <div class="header-left">
       <button class="menu-btn" onclick="toggleSidebar()">☰</button>
       <div class="logo">
-        <img src="../ic_logo.png" alt="Logo" width="32" height="32" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ffd700\'/><text x=\'50\' y=\'60\' font-size=\'40\' text-anchor=\'middle\' fill=\'%231a1a2e\'>⚔️</text></svg>'">
+        <model-viewer src="../bc82da61-a139-4ebd-90d2-3de5deab1ee8.glb" alt="Warrior Way Logo" autofocus camera-controls auto-rotate style="width:40px;height:40px;"></model-viewer>
         <span>Warrior Way ⚔️</span>
       </div>
     </div>
@@ -28,13 +30,16 @@
   </header>
   <aside class="sidebar" id="sidebar">
     <nav class="nav-menu">
-      <a href="#" class="nav-item active" data-page="dashboard">🏠 الرئيسية</a>
-      <a href="workout-logger.html" class="nav-item">💪 تسجيل تمرين</a>
-      <a href="exercise-library-app.html" class="nav-item">📚 مكتبة التمارين</a>
-      <a href="progress.html" class="nav-item">📊 التقدم والإنجازات</a>
-      <a href="programs.html" class="nav-item">🎯 برامج التدريب</a>
+      <a href="dashboard.html" class="nav-item active" data-page="dashboard">🏠 الرئيسية</a>
+      <a href="workout-logger.html" class="nav-item" data-page="workout-logger">💪 تسجيل تمرين</a>
+      <a href="exercise-library-app.html" class="nav-item" data-page="exercise-library-app">📚 مكتبة التمارين</a>
+      <a href="progress.html" class="nav-item" data-page="progress">📊 التقدم والإنجازات</a>
+      <a href="programs.html" class="nav-item" data-page="programs">🎯 برامج التدريب</a>
       <a href="#" class="nav-item" onclick="openMuscleMap()">🗺️ خريطة العضلات</a>
-      <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
+      <a href="features.html" class="nav-item" data-page="features">✨ الميزات</a>
+      <a href="about.html" class="nav-item" data-page="about">ℹ️ حولنا</a>
+      <a href="contact.html" class="nav-item" data-page="contact">✉️ تواصل معنا</a>
+      <a href="settings.html" class="nav-item" data-page="settings">⚙️ الإعدادات</a>
       <a href="#" class="nav-item logout" onclick="signOut()">🚪 تسجيل الخروج</a>
     </nav>
   </aside>
@@ -75,11 +80,11 @@
     <button class="floating-ai" onclick="openAICoach()">🤖 اسأل المدرب</button>
   </main>
   <nav class="bottom-nav">
-    <a href="#" class="nav-link active" data-page="dashboard">🏠</a>
-    <a href="workout-logger.html" class="nav-link">💪</a>
-    <a href="exercise-library-app.html" class="nav-link">📚</a>
-    <a href="progress.html" class="nav-link">📊</a>
-    <a href="#" class="nav-link" onclick="goToProfile()">👤</a>
+    <a href="dashboard.html" class="nav-link active" data-page="dashboard"><span>🏠</span><span>الرئيسية</span></a>
+    <a href="workout-logger.html" class="nav-link" data-page="workout-logger"><span>💪</span><span>تسجيل</span></a>
+    <a href="exercise-library-app.html" class="nav-link" data-page="exercise-library-app"><span>📚</span><span>المكتبة</span></a>
+    <a href="progress.html" class="nav-link" data-page="progress"><span>📊</span><span>التقدم</span></a>
+    <a href="#" class="nav-link" onclick="goToProfile()"><span>👤</span><span>حسابي</span></a>
   </nav>
   <div class="modal" id="muscleMapModal">
     <div class="modal-content">
